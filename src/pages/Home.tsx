@@ -1,0 +1,138 @@
+import { Link } from 'react-router-dom';
+import { FallingPetals } from '../components/Floral';
+import { ProductCard } from '../components/ProductCard';
+import { products } from '../data/products';
+
+export function Home() {
+  const featured = products.filter((p) => p.featured).slice(0, 6);
+
+  return (
+    <>
+      <section className="hero">
+        <div className="hero__media">
+          <img
+            src="https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=1600&q=80"
+            alt="Children in soft cream clothing among flowers"
+          />
+          <div className="hero__veil" />
+        </div>
+        <FallingPetals />
+        <div className="hero__content">
+          <h1 className="hero__brand">
+            Little Petals
+            <span>clothing that blooms</span>
+          </h1>
+          <p className="hero__tagline">
+            Soft cream & white pieces for girls and boys — from first months to fifteen.
+          </p>
+          <div className="hero__ctas">
+            <Link to="/shop" className="btn btn--primary">
+              Shop the collection
+            </Link>
+            <Link to="/shop?wear=party" className="btn btn--ghost">
+              Party wear
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <section className="section">
+        <div className="container">
+          <div className="section__head">
+            <h2>Choose their world</h2>
+            <p>Browse by girls or boys, then refine by age, wear type, and price.</p>
+          </div>
+          <div className="gender-grid">
+            <Link to="/shop?gender=girls" className="gender-tile">
+              <img
+                src="https://images.unsplash.com/photo-1518831959646-742c3a14ebf7?w=900&q=80"
+                alt="Girls collection"
+              />
+              <div className="gender-tile__veil" />
+              <div className="gender-tile__content">
+                <h3>Girls</h3>
+                <p>Dresses, sets & dreamy layers</p>
+                <span className="btn btn--blush btn--sm">Explore girls</span>
+              </div>
+            </Link>
+            <Link to="/shop?gender=boys" className="gender-tile">
+              <img
+                src="https://images.unsplash.com/photo-1503919005314-30d93d07d823?w=900&q=80"
+                alt="Boys collection"
+              />
+              <div className="gender-tile__veil" />
+              <div className="gender-tile__content">
+                <h3>Boys</h3>
+                <p>Everyday ease & celebration looks</p>
+                <span className="btn btn--blush btn--sm">Explore boys</span>
+              </div>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <section className="section" style={{ paddingTop: 0 }}>
+        <div className="container">
+          <div className="section__head">
+            <h2>Dress the day</h2>
+            <p>Daily wear, night wear, and party wear — filtered to how they live.</p>
+          </div>
+          <div className="wear-row">
+            <Link to="/shop?wear=daily" className="wear-link">
+              <div className="wear-link__icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+                  <circle cx="12" cy="12" r="4" />
+                  <path d="M12 2v2M12 20v2M4 12H2M22 12h-2M5 5l1.5 1.5M17.5 17.5L19 19M19 5l-1.5 1.5M5 19l1.5-1.5" />
+                </svg>
+              </div>
+              <h3>Daily Wear</h3>
+              <p>Soft cottons for play and school</p>
+            </Link>
+            <Link to="/shop?wear=night" className="wear-link">
+              <div className="wear-link__icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+                  <path d="M20 14.5A8.5 8.5 0 1 1 9.5 4 7 7 0 0 0 20 14.5z" />
+                </svg>
+              </div>
+              <h3>Night Wear</h3>
+              <p>Cozy sets for bedtime stories</p>
+            </Link>
+            <Link to="/shop?wear=party" className="wear-link">
+              <div className="wear-link__icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+                  <path d="M12 3l2.2 6.6H21l-5.4 4 2.1 6.4L12 16.4 6.3 20l2.1-6.4L3 9.6h6.8L12 3z" />
+                </svg>
+              </div>
+              <h3>Party Wear</h3>
+              <p>Celebration looks that sparkle softly</p>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <section className="section section--featured">
+        <div className="container">
+          <div className="section__head">
+            <h2>Blooming favorites</h2>
+            <p>A few petals from our cream & white collection.</p>
+          </div>
+          <div className="product-grid">
+            {featured.map((p) => (
+              <ProductCard key={p.id} product={p} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <div className="container">
+        <div className="cta-band">
+          <h2>Find their perfect fit</h2>
+          <p>Filter by age from 1 month to 15 years and sort by the price that works for you.</p>
+          <Link to="/shop" className="btn btn--primary">
+            Open the shop
+          </Link>
+        </div>
+      </div>
+    </>
+  );
+}
