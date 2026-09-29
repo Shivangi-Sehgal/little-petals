@@ -2,15 +2,13 @@ import { useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { FilterPanel } from '../components/FilterPanel';
 import { ProductCard } from '../components/ProductCard';
-import { PRICE_MAX, PRICE_MIN, products } from '../data/products';
+import { products } from '../data/products';
 import type { AgeBand, ShopFilters } from '../types';
 
 const defaultFilters = (): ShopFilters => ({
   gender: 'all',
   wearType: 'all',
   ageBand: 'all',
-  minPrice: PRICE_MIN,
-  maxPrice: PRICE_MAX,
   sort: 'featured',
 });
 
@@ -20,8 +18,6 @@ function parseFilters(params: URLSearchParams): ShopFilters {
   const wear = params.get('wear');
   const age = params.get('age');
   const sort = params.get('sort');
-  const min = params.get('min');
-  const max = params.get('max');
 
   if (gender === 'girls' || gender === 'boys') base.gender = gender;
   if (wear === 'daily' || wear === 'night' || wear === 'party') base.wearType = wear;
@@ -29,8 +25,6 @@ function parseFilters(params: URLSearchParams): ShopFilters {
   if (sort === 'price-asc' || sort === 'price-desc' || sort === 'name' || sort === 'featured') {
     base.sort = sort;
   }
-  if (min !== null && !Number.isNaN(Number(min))) base.minPrice = Number(min);
-  if (max !== null && !Number.isNaN(Number(max))) base.maxPrice = Number(max);
   return base;
 }
 
@@ -40,8 +34,6 @@ function toParams(filters: ShopFilters): URLSearchParams {
   if (filters.wearType !== 'all') p.set('wear', filters.wearType);
   if (filters.ageBand !== 'all') p.set('age', filters.ageBand);
   if (filters.sort !== 'featured') p.set('sort', filters.sort);
-  if (filters.minPrice !== PRICE_MIN) p.set('min', String(filters.minPrice));
-  if (filters.maxPrice !== PRICE_MAX) p.set('max', String(filters.maxPrice));
   return p;
 }
 
@@ -61,7 +53,6 @@ export function Shop() {
       if (filters.gender !== 'all' && p.gender !== filters.gender) return false;
       if (filters.wearType !== 'all' && p.wearType !== filters.wearType) return false;
       if (filters.ageBand !== 'all' && !p.ageBands.includes(filters.ageBand as AgeBand)) return false;
-      if (p.price < filters.minPrice || p.price > filters.maxPrice) return false;
       return true;
     });
 
@@ -93,7 +84,7 @@ export function Shop() {
     <div className="container">
       <div className="page-hero">
         <h1>{titleParts.length ? titleParts.join(' · ') : 'Shop All'}</h1>
-        <p>Filter by gender, age (1 month–15 years), wear type, and price.</p>
+        <p>Filter by gender, age (1 month–15 years), and wear type. Prices in ₹.</p>
       </div>
 
       <div className="shop-layout">
@@ -127,7 +118,7 @@ export function Shop() {
           {filtered.length === 0 ? (
             <div className="empty-state">
               <h3>No pieces in this garden</h3>
-              <p>Try widening the age or price range, or reset filters.</p>
+              <p>Try widening the age range, or reset filters.</p>
               <button type="button" className="btn btn--primary" onClick={reset}>
                 Reset filters
               </button>

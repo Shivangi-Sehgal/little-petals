@@ -1,10 +1,13 @@
 import { Link } from 'react-router-dom';
+import { DeliveryFloat } from '../components/DeliveryFloat';
 import { FallingPetals } from '../components/Floral';
 import { ProductCard } from '../components/ProductCard';
+import { ReviewsMarquee } from '../components/ReviewsMarquee';
 import { products } from '../data/products';
 
 export function Home() {
   const featured = products.filter((p) => p.featured).slice(0, 6);
+  const trending = products.filter((p) => p.trending).slice(0, 6);
 
   return (
     <>
@@ -36,11 +39,15 @@ export function Home() {
         </div>
       </section>
 
+      <div className="container delivery-float-wrap delivery-float-wrap--early">
+        <DeliveryFloat />
+      </div>
+
       <section className="section">
         <div className="container">
           <div className="section__head">
             <h2>Choose their world</h2>
-            <p>Browse by girls or boys, then refine by age, wear type, and price.</p>
+            <p>Browse by girls or boys, then refine by age and wear type.</p>
           </div>
           <div className="gender-grid">
             <Link to="/shop?gender=girls" className="gender-tile">
@@ -110,6 +117,20 @@ export function Home() {
         </div>
       </section>
 
+      <section className="section section--trending">
+        <div className="container">
+          <div className="section__head">
+            <h2>Trending now</h2>
+            <p>What little ones are wearing this season — priced in ₹.</p>
+          </div>
+          <div className="product-grid">
+            {trending.map((p) => (
+              <ProductCard key={p.id} product={p} />
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section className="section section--featured">
         <div className="container">
           <div className="section__head">
@@ -127,12 +148,49 @@ export function Home() {
       <div className="container">
         <div className="cta-band">
           <h2>Find their perfect fit</h2>
-          <p>Filter by age from 1 month to 15 years and sort by the price that works for you.</p>
+          <p>Filter by age from 1 month to 15 years and shop in Indian Rupees.</p>
           <Link to="/shop" className="btn btn--primary">
             Open the shop
           </Link>
         </div>
       </div>
+
+      <ReviewsMarquee />
+
+      <section className="section section--contact" id="contact">
+        <div className="container">
+          <div className="contact-panel">
+            <div className="contact-panel__intro">
+              <p className="contact-panel__eyebrow">We’re here</p>
+              <h2>Contact us</h2>
+              <p>
+                Questions about sizing, instant delivery near our boutique, or a special order?
+                Reach out — we reply with care.
+              </p>
+            </div>
+            <div className="contact-panel__details">
+              <a className="contact-tile" href="mailto:hello@littlepetals.shop">
+                <span className="contact-tile__label">Email</span>
+                <strong>hello@littlepetals.shop</strong>
+              </a>
+              <a className="contact-tile" href="tel:+919876543210">
+                <span className="contact-tile__label">Phone</span>
+                <strong>+91 98765 43210</strong>
+              </a>
+              <div className="contact-tile">
+                <span className="contact-tile__label">Boutique</span>
+                <strong>Cream Lane, Indiranagar</strong>
+                <span className="contact-tile__meta">Bengaluru · Mon–Sat, 10am–7pm</span>
+              </div>
+              <a className="contact-tile" href="https://wa.me/919876543210" target="_blank" rel="noreferrer">
+                <span className="contact-tile__label">WhatsApp</span>
+                <strong>Chat with us</strong>
+                <span className="contact-tile__meta">Quick help for orders & delivery</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
     </>
   );
 }

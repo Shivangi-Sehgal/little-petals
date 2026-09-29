@@ -48,6 +48,10 @@ export function ProductDetail() {
         <div className="detail__info">
           <h1>{product.name}</h1>
           <div className="detail__price">{formatPrice(product.price)}</div>
+          <p className="detail__delivery">
+            <span className="detail__delivery-pill">Instant nearby</span>
+            Available depending on your distance from our boutique.
+          </p>
           <p className="detail__desc">{product.description}</p>
 
           <div className="detail__tags">

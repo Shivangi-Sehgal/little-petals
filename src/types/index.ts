@@ -24,6 +24,7 @@ export interface Product {
   colors: string[];
   image: string;
   featured?: boolean;
+  trending?: boolean;
 }
 
 export interface CartItem {
@@ -36,7 +37,5 @@ export interface ShopFilters {
   gender: Gender | 'all';
   wearType: WearType | 'all';
   ageBand: AgeBand | 'all';
-  minPrice: number;
-  maxPrice: number;
   sort: 'featured' | 'price-asc' | 'price-desc' | 'name';
 }

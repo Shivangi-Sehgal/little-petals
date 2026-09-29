@@ -14,7 +14,7 @@ export function Cart() {
         </div>
         <div className="empty-state" style={{ marginBottom: '3rem' }}>
           <h3>Nothing here yet</h3>
-          <p>Browse girls and boys collections, filter by age and price, then add your favorites.</p>
+          <p>Browse girls and boys collections, filter by age, then add your favorites. Prices in ₹.</p>
           <Link to="/shop" className="btn btn--primary">
             Start shopping
           </Link>
@@ -84,8 +84,11 @@ export function Cart() {
           </div>
           <div className="summary-row">
             <span>Shipping</span>
-            <span>Calculated at checkout</span>
+            <span>Based on distance</span>
           </div>
+          <p className="cart-delivery-hint">
+            Instant delivery may be available depending on your distance from our location.
+          </p>
           <div className="summary-row summary-row--total">
             <span>Total</span>
             <span>{formatPrice(subtotal)}</span>

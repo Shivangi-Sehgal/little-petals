@@ -1,4 +1,4 @@
-import { AGE_BANDS, PRICE_MAX, PRICE_MIN, WEAR_TYPES } from '../data/products';
+import { AGE_BANDS, WEAR_TYPES } from '../data/products';
 import type { AgeBand, Gender, ShopFilters, WearType } from '../types';
 
 interface FiltersProps {
@@ -77,44 +77,6 @@ export function FilterPanel({ filters, onChange, onReset }: FiltersProps) {
               {a.label}
             </button>
           ))}
-        </div>
-      </div>
-
-      <div className="filter-group">
-        <h3>Price Range</h3>
-        <div className="price-range">
-          <div className="price-range__values">
-            <span>${filters.minPrice}</span>
-            <span>${filters.maxPrice}</span>
-          </div>
-          <label>
-            <span className="field-label">Min</span>
-            <input
-              type="range"
-              min={PRICE_MIN}
-              max={PRICE_MAX}
-              step={1}
-              value={filters.minPrice}
-              onChange={(e) => {
-                const minPrice = Math.min(Number(e.target.value), filters.maxPrice);
-                onChange({ minPrice });
-              }}
-            />
-          </label>
-          <label>
-            <span className="field-label">Max</span>
-            <input
-              type="range"
-              min={PRICE_MIN}
-              max={PRICE_MAX}
-              step={1}
-              value={filters.maxPrice}
-              onChange={(e) => {
-                const maxPrice = Math.max(Number(e.target.value), filters.minPrice);
-                onChange({ maxPrice });
-              }}
-            />
-          </label>
         </div>
       </div>
 
