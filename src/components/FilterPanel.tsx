@@ -1,5 +1,5 @@
-import { AGE_BANDS, WEAR_TYPES } from '../data/products';
-import type { AgeBand, Gender, ShopFilters, WearType } from '../types';
+import { AGE_BANDS, PRICE_RANGES, WEAR_TYPES } from '../data/products';
+import type { AgeBand, Gender, PriceRange, ShopFilters, WearType } from '../types';
 
 interface FiltersProps {
   filters: ShopFilters;
@@ -75,6 +75,29 @@ export function FilterPanel({ filters, onChange, onReset }: FiltersProps) {
               onClick={() => onChange({ ageBand: a.value as AgeBand })}
             >
               {a.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div className="filter-group">
+        <h3>Price Range</h3>
+        <div className="chip-row">
+          <button
+            type="button"
+            className={`chip ${filters.priceRange === 'all' ? 'active' : ''}`}
+            onClick={() => onChange({ priceRange: 'all' })}
+          >
+            All prices
+          </button>
+          {PRICE_RANGES.map((r) => (
+            <button
+              key={r.value}
+              type="button"
+              className={`chip ${filters.priceRange === r.value ? 'active' : ''}`}
+              onClick={() => onChange({ priceRange: r.value as PriceRange })}
+            >
+              {r.label}
             </button>
           ))}
         </div>

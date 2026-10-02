@@ -2,13 +2,16 @@ import { useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { FilterPanel } from '../components/FilterPanel';
 import { ProductCard } from '../components/ProductCard';
-import { products } from '../data/products';
-import type { AgeBand, ShopFilters } from '../types';
+import { PRICE_RANGES, products } from '../data/products';
+import type { AgeBand, PriceRange, ShopFilters } from '../types';
+
+const PRICE_RANGE_VALUES: PriceRange[] = ['under-2000', '2000-3500', '3500-5000', 'over-5000'];
 
 const defaultFilters = (): ShopFilters => ({
   gender: 'all',
   wearType: 'all',
   ageBand: 'all',
+  priceRange: 'all',
   sort: 'featured',
 });
 
@@ -17,11 +20,15 @@ function parseFilters(params: URLSearchParams): ShopFilters {
   const gender = params.get('gender');
   const wear = params.get('wear');
   const age = params.get('age');
+  const price = params.get('price');
   const sort = params.get('sort');
 
   if (gender === 'girls' || gender === 'boys') base.gender = gender;
   if (wear === 'daily' || wear === 'night' || wear === 'party') base.wearType = wear;
   if (age) base.ageBand = age as AgeBand;
+  if (price && PRICE_RANGE_VALUES.includes(price as PriceRange)) {
+    base.priceRange = price as PriceRange;
+  }
   if (sort === 'price-asc' || sort === 'price-desc' || sort === 'name' || sort === 'featured') {
     base.sort = sort;
   }
@@ -33,6 +40,7 @@ function toParams(filters: ShopFilters): URLSearchParams {
   if (filters.gender !== 'all') p.set('gender', filters.gender);
   if (filters.wearType !== 'all') p.set('wear', filters.wearType);
   if (filters.ageBand !== 'all') p.set('age', filters.ageBand);
+  if (filters.priceRange !== 'all') p.set('price', filters.priceRange);
   if (filters.sort !== 'featured') p.set('sort', filters.sort);
   return p;
 }
@@ -49,10 +57,19 @@ export function Shop() {
   const reset = () => setParams({}, { replace: true });
 
   const filtered = useMemo(() => {
+    const range =
+      filters.priceRange === 'all'
+        ? null
+        : PRICE_RANGES.find((r) => r.value === filters.priceRange) ?? null;
+
     let list = products.filter((p) => {
       if (filters.gender !== 'all' && p.gender !== filters.gender) return false;
       if (filters.wearType !== 'all' && p.wearType !== filters.wearType) return false;
       if (filters.ageBand !== 'all' && !p.ageBands.includes(filters.ageBand as AgeBand)) return false;
+      if (range) {
+        if (range.min != null && p.price < range.min) return false;
+        if (range.max != null && p.price > range.max) return false;
+      }
       return true;
     });
 
@@ -84,7 +101,7 @@ export function Shop() {
     <div className="container">
       <div className="page-hero">
         <h1>{titleParts.length ? titleParts.join(' · ') : 'Shop All'}</h1>
-        <p>Filter by gender, age (1 month–15 years), and wear type. Prices in ₹.</p>
+        <p>Filter by gender, age (1 month–15 years), wear type, and price. Prices in ₹.</p>
       </div>
 
       <div className="shop-layout">
@@ -118,7 +135,7 @@ export function Shop() {
           {filtered.length === 0 ? (
             <div className="empty-state">
               <h3>No pieces in this garden</h3>
-              <p>Try widening the age range, or reset filters.</p>
+              <p>Try widening the age or price range, or reset filters.</p>
               <button type="button" className="btn btn--primary" onClick={reset}>
                 Reset filters
               </button>

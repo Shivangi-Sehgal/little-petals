@@ -1,4 +1,4 @@
-import type { AgeBand, Product, WearType } from '../types';
+import type { AgeBand, PriceRange, Product, WearType } from '../types';
 
 export const AGE_BANDS: { value: AgeBand; label: string; monthsMin: number; monthsMax: number }[] = [
   { value: '1-6m', label: '1–6 months', monthsMin: 1, monthsMax: 6 },
@@ -16,6 +16,18 @@ export const WEAR_TYPES: { value: WearType; label: string }[] = [
   { value: 'daily', label: 'Daily Wear' },
   { value: 'night', label: 'Night Wear' },
   { value: 'party', label: 'Party Wear' },
+];
+
+export const PRICE_RANGES: {
+  value: PriceRange;
+  label: string;
+  min: number | null;
+  max: number | null;
+}[] = [
+  { value: 'under-2000', label: 'Under ₹2,000', min: null, max: 1999 },
+  { value: '2000-3500', label: '₹2,000 – ₹3,500', min: 2000, max: 3499 },
+  { value: '3500-5000', label: '₹3,500 – ₹5,000', min: 3500, max: 5000 },
+  { value: 'over-5000', label: 'Over ₹5,000', min: 5001, max: null },
 ];
 
 export const products: Product[] = [

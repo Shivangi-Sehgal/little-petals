@@ -13,6 +13,8 @@ export type AgeBand =
   | '10-12y'
   | '12-15y';
 
+export type PriceRange = 'under-2000' | '2000-3500' | '3500-5000' | 'over-5000';
+
 export interface Product {
   id: string;
   name: string;
@@ -37,5 +39,6 @@ export interface ShopFilters {
   gender: Gender | 'all';
   wearType: WearType | 'all';
   ageBand: AgeBand | 'all';
+  priceRange: PriceRange | 'all';
   sort: 'featured' | 'price-asc' | 'price-desc' | 'name';
 }
