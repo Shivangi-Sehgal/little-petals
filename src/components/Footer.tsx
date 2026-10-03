@@ -27,22 +27,25 @@ export function Footer() {
               <li>
                 <Link to="/shop?wear=party">Party Wear</Link>
               </li>
+              <li>
+                <Link to="/shop?wear=festive">Festive Wear</Link>
+              </li>
             </ul>
           </div>
           <div>
             <h4>Ages</h4>
             <ul>
               <li>
-                <Link to="/shop?age=1-6m">Babies (1–6 months)</Link>
+                <Link to="/shop?ageFrom=1&ageTo=180">1 month – 15 years</Link>
               </li>
               <li>
-                <Link to="/shop?age=1-2y">Toddlers (1–2 years)</Link>
+                <Link to="/shop?ageFrom=1&ageTo=12">From 1 month</Link>
               </li>
               <li>
-                <Link to="/shop?age=6-8y">Kids (6–8 years)</Link>
+                <Link to="/shop?ageFrom=12&ageTo=60">Around 1–5 years</Link>
               </li>
               <li>
-                <Link to="/shop?age=12-15y">Teens (12–15 years)</Link>
+                <Link to="/shop?ageFrom=60&ageTo=180">Around 5–15 years</Link>
               </li>
             </ul>
           </div>

@@ -2,15 +2,23 @@ import { useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { FilterPanel } from '../components/FilterPanel';
 import { ProductCard } from '../components/ProductCard';
-import { PRICE_RANGES, products } from '../data/products';
-import type { AgeBand, PriceRange, ShopFilters } from '../types';
+import {
+  AGE_MAX_MONTHS,
+  AGE_MIN_MONTHS,
+  PRICE_RANGES,
+  productFitsAgeFilter,
+  products,
+  WEAR_TYPES,
+} from '../data/products';
+import type { PriceRange, ShopFilters } from '../types';
 
 const PRICE_RANGE_VALUES: PriceRange[] = ['under-2000', '2000-3500', '3500-5000', 'over-5000'];
 
 const defaultFilters = (): ShopFilters => ({
   gender: 'all',
   wearType: 'all',
-  ageBand: 'all',
+  ageFromMonths: AGE_MIN_MONTHS,
+  ageToMonths: AGE_MAX_MONTHS,
   priceRange: 'all',
   sort: 'featured',
 });
@@ -19,13 +27,24 @@ function parseFilters(params: URLSearchParams): ShopFilters {
   const base = defaultFilters();
   const gender = params.get('gender');
   const wear = params.get('wear');
-  const age = params.get('age');
+  const ageFrom = params.get('ageFrom');
+  const ageTo = params.get('ageTo');
   const price = params.get('price');
   const sort = params.get('sort');
 
   if (gender === 'girls' || gender === 'boys') base.gender = gender;
-  if (wear === 'daily' || wear === 'night' || wear === 'party') base.wearType = wear;
-  if (age) base.ageBand = age as AgeBand;
+  if (wear === 'daily' || wear === 'night' || wear === 'party' || wear === 'festive') {
+    base.wearType = wear;
+  }
+  if (ageFrom !== null && !Number.isNaN(Number(ageFrom))) {
+    base.ageFromMonths = Math.min(AGE_MAX_MONTHS, Math.max(AGE_MIN_MONTHS, Number(ageFrom)));
+  }
+  if (ageTo !== null && !Number.isNaN(Number(ageTo))) {
+    base.ageToMonths = Math.min(AGE_MAX_MONTHS, Math.max(AGE_MIN_MONTHS, Number(ageTo)));
+  }
+  if (base.ageFromMonths > base.ageToMonths) {
+    [base.ageFromMonths, base.ageToMonths] = [base.ageToMonths, base.ageFromMonths];
+  }
   if (price && PRICE_RANGE_VALUES.includes(price as PriceRange)) {
     base.priceRange = price as PriceRange;
   }
@@ -39,7 +58,8 @@ function toParams(filters: ShopFilters): URLSearchParams {
   const p = new URLSearchParams();
   if (filters.gender !== 'all') p.set('gender', filters.gender);
   if (filters.wearType !== 'all') p.set('wear', filters.wearType);
-  if (filters.ageBand !== 'all') p.set('age', filters.ageBand);
+  if (filters.ageFromMonths !== AGE_MIN_MONTHS) p.set('ageFrom', String(filters.ageFromMonths));
+  if (filters.ageToMonths !== AGE_MAX_MONTHS) p.set('ageTo', String(filters.ageToMonths));
   if (filters.priceRange !== 'all') p.set('price', filters.priceRange);
   if (filters.sort !== 'featured') p.set('sort', filters.sort);
   return p;
@@ -65,7 +85,7 @@ export function Shop() {
     let list = products.filter((p) => {
       if (filters.gender !== 'all' && p.gender !== filters.gender) return false;
       if (filters.wearType !== 'all' && p.wearType !== filters.wearType) return false;
-      if (filters.ageBand !== 'all' && !p.ageBands.includes(filters.ageBand as AgeBand)) return false;
+      if (!productFitsAgeFilter(p, filters.ageFromMonths, filters.ageToMonths)) return false;
       if (range) {
         if (range.min != null && p.price < range.min) return false;
         if (range.max != null && p.price > range.max) return false;
@@ -92,9 +112,7 @@ export function Shop() {
   const titleParts: string[] = [];
   if (filters.gender !== 'all') titleParts.push(filters.gender === 'girls' ? 'Girls' : 'Boys');
   if (filters.wearType !== 'all') {
-    titleParts.push(
-      filters.wearType === 'daily' ? 'Daily Wear' : filters.wearType === 'night' ? 'Night Wear' : 'Party Wear',
-    );
+    titleParts.push(WEAR_TYPES.find((w) => w.value === filters.wearType)?.label ?? filters.wearType);
   }
 
   return (
@@ -105,11 +123,7 @@ export function Shop() {
       </div>
 
       <div className="shop-layout">
-        <FilterPanel
-          filters={filters}
-          onChange={update}
-          onReset={reset}
-        />
+        <FilterPanel filters={filters} onChange={update} onReset={reset} />
 
         <div>
           <div className="sort-bar">

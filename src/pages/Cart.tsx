@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
-import { ageBandLabel, formatPrice } from '../data/products';
+import { formatAgeMonths, formatPrice } from '../data/products';
 
 export function Cart() {
   const { items, subtotal, updateQuantity, removeItem, clearCart } = useCart();
@@ -14,7 +14,7 @@ export function Cart() {
         </div>
         <div className="empty-state" style={{ marginBottom: '3rem' }}>
           <h3>Nothing here yet</h3>
-          <p>Browse girls and boys collections, filter by age, then add your favorites. Prices in ₹.</p>
+          <p>Browse girls and boys collections, filter by age (1 month–15 years), then add your favorites. Prices in ₹.</p>
           <Link to="/shop" className="btn btn--primary">
             Start shopping
           </Link>
@@ -27,13 +27,15 @@ export function Cart() {
     <div className="container">
       <div className="page-hero">
         <h1>Your cart</h1>
-        <p>{items.length} {items.length === 1 ? 'item' : 'items'} ready for checkout.</p>
+        <p>
+          {items.length} {items.length === 1 ? 'item' : 'items'} ready for checkout.
+        </p>
       </div>
 
       <div className="cart-layout">
         <div className="cart-list">
           {items.map((item) => (
-            <article key={`${item.product.id}-${item.size}`} className="cart-item">
+            <article key={`${item.product.id}-${item.sizeMonths}`} className="cart-item">
               <Link to={`/product/${item.product.id}`}>
                 <img src={item.product.image} alt={item.product.name} />
               </Link>
@@ -42,14 +44,16 @@ export function Cart() {
                   <Link to={`/product/${item.product.id}`}>{item.product.name}</Link>
                 </h3>
                 <div className="cart-item__meta">
-                  {item.product.gender === 'girls' ? 'Girls' : 'Boys'} · {ageBandLabel(item.size)}
+                  {item.product.gender === 'girls' ? 'Girls' : 'Boys'} · {formatAgeMonths(item.sizeMonths)}
                 </div>
                 <div className="cart-item__actions">
                   <div className="qty-control">
                     <button
                       type="button"
                       aria-label="Decrease"
-                      onClick={() => updateQuantity(item.product.id, item.size, item.quantity - 1)}
+                      onClick={() =>
+                        updateQuantity(item.product.id, item.sizeMonths, item.quantity - 1)
+                      }
                     >
                       −
                     </button>
@@ -57,7 +61,9 @@ export function Cart() {
                     <button
                       type="button"
                       aria-label="Increase"
-                      onClick={() => updateQuantity(item.product.id, item.size, item.quantity + 1)}
+                      onClick={() =>
+                        updateQuantity(item.product.id, item.sizeMonths, item.quantity + 1)
+                      }
                     >
                       +
                     </button>
@@ -65,7 +71,7 @@ export function Cart() {
                   <button
                     type="button"
                     className="remove-link"
-                    onClick={() => removeItem(item.product.id, item.size)}
+                    onClick={() => removeItem(item.product.id, item.sizeMonths)}
                   >
                     Remove
                   </button>
@@ -93,7 +99,11 @@ export function Cart() {
             <span>Total</span>
             <span>{formatPrice(subtotal)}</span>
           </div>
-          <button type="button" className="btn btn--primary" onClick={() => alert('Checkout demo — connect a payment provider to go live.')}>
+          <button
+            type="button"
+            className="btn btn--primary"
+            onClick={() => alert('Checkout demo — connect a payment provider to go live.')}
+          >
             Checkout
           </button>
           <button type="button" className="btn btn--ghost" style={{ marginTop: '0.65rem' }} onClick={clearCart}>

@@ -1,5 +1,5 @@
-import { AGE_BANDS, PRICE_RANGES, WEAR_TYPES } from '../data/products';
-import type { AgeBand, Gender, PriceRange, ShopFilters, WearType } from '../types';
+import { AGE_MAX_MONTHS, AGE_MIN_MONTHS, formatAgeMonths, PRICE_RANGES, WEAR_TYPES } from '../data/products';
+import type { Gender, PriceRange, ShopFilters, WearType } from '../types';
 
 interface FiltersProps {
   filters: ShopFilters;
@@ -58,25 +58,41 @@ export function FilterPanel({ filters, onChange, onReset }: FiltersProps) {
       </div>
 
       <div className="filter-group">
-        <h3>Age Range</h3>
-        <div className="chip-row">
-          <button
-            type="button"
-            className={`chip ${filters.ageBand === 'all' ? 'active' : ''}`}
-            onClick={() => onChange({ ageBand: 'all' })}
-          >
-            All ages
-          </button>
-          {AGE_BANDS.map((a) => (
-            <button
-              key={a.value}
-              type="button"
-              className={`chip ${filters.ageBand === a.value ? 'active' : ''}`}
-              onClick={() => onChange({ ageBand: a.value as AgeBand })}
-            >
-              {a.label}
-            </button>
-          ))}
+        <h3>Age (1 month – 15 years)</h3>
+        <div className="price-range age-range">
+          <div className="price-range__values">
+            <span>{formatAgeMonths(filters.ageFromMonths)}</span>
+            <span>{formatAgeMonths(filters.ageToMonths)}</span>
+          </div>
+          <label>
+            <span className="field-label">From</span>
+            <input
+              type="range"
+              min={AGE_MIN_MONTHS}
+              max={AGE_MAX_MONTHS}
+              step={1}
+              value={filters.ageFromMonths}
+              onChange={(e) => {
+                const ageFromMonths = Math.min(Number(e.target.value), filters.ageToMonths);
+                onChange({ ageFromMonths });
+              }}
+            />
+          </label>
+          <label>
+            <span className="field-label">To</span>
+            <input
+              type="range"
+              min={AGE_MIN_MONTHS}
+              max={AGE_MAX_MONTHS}
+              step={1}
+              value={filters.ageToMonths}
+              onChange={(e) => {
+                const ageToMonths = Math.max(Number(e.target.value), filters.ageFromMonths);
+                onChange({ ageToMonths });
+              }}
+            />
+          </label>
+          <p className="age-range__hint">Drag to any age from 1 month up to 15 years.</p>
         </div>
       </div>
 

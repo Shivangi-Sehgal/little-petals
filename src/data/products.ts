@@ -1,21 +1,14 @@
-import type { AgeBand, PriceRange, Product, WearType } from '../types';
+import type { PriceRange, Product, WearType } from '../types';
 
-export const AGE_BANDS: { value: AgeBand; label: string; monthsMin: number; monthsMax: number }[] = [
-  { value: '1-6m', label: '1–6 months', monthsMin: 1, monthsMax: 6 },
-  { value: '6-12m', label: '6–12 months', monthsMin: 6, monthsMax: 12 },
-  { value: '1-2y', label: '1–2 years', monthsMin: 12, monthsMax: 24 },
-  { value: '2-4y', label: '2–4 years', monthsMin: 24, monthsMax: 48 },
-  { value: '4-6y', label: '4–6 years', monthsMin: 48, monthsMax: 72 },
-  { value: '6-8y', label: '6–8 years', monthsMin: 72, monthsMax: 96 },
-  { value: '8-10y', label: '8–10 years', monthsMin: 96, monthsMax: 120 },
-  { value: '10-12y', label: '10–12 years', monthsMin: 120, monthsMax: 144 },
-  { value: '12-15y', label: '12–15 years', monthsMin: 144, monthsMax: 180 },
-];
+/** Full catalog age span: 1 month → 15 years. */
+export const AGE_MIN_MONTHS = 1;
+export const AGE_MAX_MONTHS = 15 * 12; // 180
 
 export const WEAR_TYPES: { value: WearType; label: string }[] = [
   { value: 'daily', label: 'Daily Wear' },
   { value: 'night', label: 'Night Wear' },
   { value: 'party', label: 'Party Wear' },
+  { value: 'festive', label: 'Festive Wear' },
 ];
 
 export const PRICE_RANGES: {
@@ -30,6 +23,69 @@ export const PRICE_RANGES: {
   { value: 'over-5000', label: 'Over ₹5,000', min: 5001, max: null },
 ];
 
+/** Standard size points along 1 month → 15 years. */
+const SIZE_POINTS_MONTHS = [
+  1, 3, 6, 9, 12, 18,
+  24, 36, 48, 60, 72, 84, 96, 108, 120, 132, 144, 156, 168, 180,
+];
+
+export function formatAgeMonths(months: number): string {
+  if (months < 12) {
+    return `${months} month${months === 1 ? '' : 's'}`;
+  }
+  const years = Math.floor(months / 12);
+  const rem = months % 12;
+  if (rem === 0) {
+    return `${years} year${years === 1 ? '' : 's'}`;
+  }
+  return `${years}y ${rem}m`;
+}
+
+export function formatAgeRange(from: number, to: number): string {
+  if (from === to) return formatAgeMonths(from);
+  return `${formatAgeMonths(from)} – ${formatAgeMonths(to)}`;
+}
+
+const COLOR_SWATCHES: Record<string, string> = {
+  Ivory: '#F5F0E6',
+  Blush: '#E8A0B0',
+  Cream: '#F7F0E6',
+  Rose: '#D48496',
+  Cloud: '#E8EEF2',
+  Sage: '#A8B89A',
+  Butter: '#F2D4A8',
+  'Dusty Pink': '#D4A5B0',
+  Pearl: '#F4F1EC',
+  'Lilac Mist': '#D8CBE0',
+  White: '#FFFFFF',
+  Champagne: '#E8D5B5',
+  Sand: '#D4C4A8',
+  Sky: '#B8D4E8',
+  Olive: '#8A9A6E',
+  Honey: '#D4A84B',
+  Khaki: '#C4B89A',
+  Stone: '#B8B0A4',
+  'Navy Trim': '#3D4A5C',
+  Fog: '#C8CED4',
+};
+
+export function colorSwatch(name: string): string {
+  return COLOR_SWATCHES[name] ?? '#E8DFD4';
+}
+
+/** Sizes available for a product within its age span. */
+export function sizesForProduct(ageFromMonths: number, ageToMonths: number): number[] {
+  return SIZE_POINTS_MONTHS.filter((m) => m >= ageFromMonths && m <= ageToMonths);
+}
+
+export function productFitsAgeFilter(
+  product: Product,
+  filterFrom: number,
+  filterTo: number,
+): boolean {
+  return product.ageFromMonths <= filterTo && product.ageToMonths >= filterFrom;
+}
+
 export const products: Product[] = [
   {
     id: 'g-daisy-dress',
@@ -38,7 +94,8 @@ export const products: Product[] = [
     price: 2799,
     gender: 'girls',
     wearType: 'daily',
-    ageBands: ['1-2y', '2-4y', '4-6y'],
+    ageFromMonths: 12,
+    ageToMonths: 72,
     colors: ['Ivory', 'Blush'],
     image: 'https://images.unsplash.com/photo-1518831959646-742c3a14ebf7?w=800&q=80',
     featured: true,
@@ -51,7 +108,8 @@ export const products: Product[] = [
     price: 3999,
     gender: 'girls',
     wearType: 'party',
-    ageBands: ['2-4y', '4-6y', '6-8y'],
+    ageFromMonths: 24,
+    ageToMonths: 96,
     colors: ['Cream', 'Rose'],
     image: 'https://images.unsplash.com/photo-1471286174890-9c112ffca5b4?w=800&q=80',
     featured: true,
@@ -64,7 +122,8 @@ export const products: Product[] = [
     price: 2299,
     gender: 'girls',
     wearType: 'night',
-    ageBands: ['1-2y', '2-4y', '4-6y', '6-8y'],
+    ageFromMonths: 12,
+    ageToMonths: 96,
     colors: ['Cloud', 'Sage'],
     image: 'https://images.unsplash.com/photo-1622290291468-a28f7a7dc6a8?w=800&q=80',
     featured: true,
@@ -76,7 +135,8 @@ export const products: Product[] = [
     price: 2099,
     gender: 'girls',
     wearType: 'daily',
-    ageBands: ['1-6m', '6-12m', '1-2y'],
+    ageFromMonths: 1,
+    ageToMonths: 24,
     colors: ['Cream', 'Butter'],
     image: 'https://images.unsplash.com/photo-1522771930-78848d9293e8?w=800&q=80',
     trending: true,
@@ -88,7 +148,8 @@ export const products: Product[] = [
     price: 5199,
     gender: 'girls',
     wearType: 'party',
-    ageBands: ['4-6y', '6-8y', '8-10y', '10-12y'],
+    ageFromMonths: 48,
+    ageToMonths: 144,
     colors: ['Ivory'],
     image: 'https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=800&q=80',
     featured: true,
@@ -100,7 +161,8 @@ export const products: Product[] = [
     price: 2999,
     gender: 'girls',
     wearType: 'daily',
-    ageBands: ['2-4y', '4-6y', '6-8y', '8-10y'],
+    ageFromMonths: 24,
+    ageToMonths: 120,
     colors: ['Cream', 'Dusty Pink'],
     image: 'https://images.unsplash.com/photo-1503919545889-aef636e10ad5?w=800&q=80',
   },
@@ -111,7 +173,8 @@ export const products: Product[] = [
     price: 2599,
     gender: 'girls',
     wearType: 'night',
-    ageBands: ['6-8y', '8-10y', '10-12y', '12-15y'],
+    ageFromMonths: 72,
+    ageToMonths: 180,
     colors: ['Pearl', 'Lilac Mist'],
     image: 'https://images.unsplash.com/photo-1596870230751-ebdfce98ec42?w=800&q=80',
   },
@@ -122,7 +185,8 @@ export const products: Product[] = [
     price: 3499,
     gender: 'girls',
     wearType: 'daily',
-    ageBands: ['4-6y', '6-8y', '8-10y', '10-12y'],
+    ageFromMonths: 48,
+    ageToMonths: 144,
     colors: ['White', 'Blush'],
     image: 'https://images.unsplash.com/photo-1566454825481-4e48b8c8c0b1?w=800&q=80',
     trending: true,
@@ -134,7 +198,8 @@ export const products: Product[] = [
     price: 4499,
     gender: 'girls',
     wearType: 'party',
-    ageBands: ['8-10y', '10-12y', '12-15y'],
+    ageFromMonths: 96,
+    ageToMonths: 180,
     colors: ['Champagne'],
     image: 'https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?w=800&q=80',
   },
@@ -145,7 +210,8 @@ export const products: Product[] = [
     price: 3199,
     gender: 'boys',
     wearType: 'daily',
-    ageBands: ['2-4y', '4-6y', '6-8y'],
+    ageFromMonths: 24,
+    ageToMonths: 96,
     colors: ['Cream', 'Sand'],
     image: 'https://images.unsplash.com/photo-1503919005314-30d93d07d823?w=800&q=80',
     featured: true,
@@ -158,7 +224,8 @@ export const products: Product[] = [
     price: 4799,
     gender: 'boys',
     wearType: 'party',
-    ageBands: ['2-4y', '4-6y', '6-8y', '8-10y'],
+    ageFromMonths: 24,
+    ageToMonths: 120,
     colors: ['Ivory', 'Sage'],
     image: 'https://images.unsplash.com/photo-1519237088770-31d8ea8e9c4e?w=800&q=80',
     featured: true,
@@ -170,7 +237,8 @@ export const products: Product[] = [
     price: 2499,
     gender: 'boys',
     wearType: 'night',
-    ageBands: ['1-2y', '2-4y', '4-6y', '6-8y'],
+    ageFromMonths: 12,
+    ageToMonths: 96,
     colors: ['Sky', 'Cream'],
     image: 'https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?w=800&q=80',
   },
@@ -181,7 +249,8 @@ export const products: Product[] = [
     price: 1499,
     gender: 'boys',
     wearType: 'daily',
-    ageBands: ['1-2y', '2-4y', '4-6y', '6-8y', '8-10y'],
+    ageFromMonths: 12,
+    ageToMonths: 120,
     colors: ['White', 'Olive'],
     image: 'https://images.unsplash.com/photo-1519237088770-31d8ea8e9c4e?w=800&q=80',
     trending: true,
@@ -193,7 +262,8 @@ export const products: Product[] = [
     price: 1799,
     gender: 'boys',
     wearType: 'daily',
-    ageBands: ['1-6m', '6-12m'],
+    ageFromMonths: 1,
+    ageToMonths: 12,
     colors: ['Cream', 'Sage'],
     image: 'https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=800&q=80',
     featured: true,
@@ -205,7 +275,8 @@ export const products: Product[] = [
     price: 2999,
     gender: 'boys',
     wearType: 'party',
-    ageBands: ['4-6y', '6-8y', '8-10y', '10-12y', '12-15y'],
+    ageFromMonths: 48,
+    ageToMonths: 180,
     colors: ['White'],
     image: 'https://images.unsplash.com/photo-1503919545889-aef636e10ad5?w=800&q=80',
   },
@@ -216,7 +287,8 @@ export const products: Product[] = [
     price: 3299,
     gender: 'boys',
     wearType: 'night',
-    ageBands: ['4-6y', '6-8y', '8-10y', '10-12y'],
+    ageFromMonths: 48,
+    ageToMonths: 144,
     colors: ['Honey', 'Cream'],
     image: 'https://images.unsplash.com/photo-1622290291468-a28f7a7dc6a8?w=800&q=80',
   },
@@ -227,7 +299,8 @@ export const products: Product[] = [
     price: 1999,
     gender: 'boys',
     wearType: 'daily',
-    ageBands: ['6-8y', '8-10y', '10-12y', '12-15y'],
+    ageFromMonths: 72,
+    ageToMonths: 180,
     colors: ['Khaki', 'Stone'],
     image: 'https://images.unsplash.com/photo-1503919005314-30d93d07d823?w=800&q=80',
   },
@@ -238,7 +311,8 @@ export const products: Product[] = [
     price: 5999,
     gender: 'boys',
     wearType: 'party',
-    ageBands: ['6-8y', '8-10y', '10-12y', '12-15y'],
+    ageFromMonths: 72,
+    ageToMonths: 180,
     colors: ['Cream', 'Navy Trim'],
     image: 'https://images.unsplash.com/photo-1471286174890-9c112ffca5b4?w=800&q=80',
     trending: true,
@@ -250,7 +324,8 @@ export const products: Product[] = [
     price: 3199,
     gender: 'girls',
     wearType: 'daily',
-    ageBands: ['6-8y', '8-10y', '10-12y', '12-15y'],
+    ageFromMonths: 72,
+    ageToMonths: 180,
     colors: ['Cream', 'Rose'],
     image: 'https://images.unsplash.com/photo-1518831959646-742c3a14ebf7?w=800&q=80',
   },
@@ -261,9 +336,62 @@ export const products: Product[] = [
     price: 2099,
     gender: 'boys',
     wearType: 'night',
-    ageBands: ['8-10y', '10-12y', '12-15y'],
+    ageFromMonths: 96,
+    ageToMonths: 180,
     colors: ['Fog', 'Cream'],
     image: 'https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=800&q=80',
+  },
+  {
+    id: 'g-marigold-lehenga',
+    name: 'Marigold Festival Lehenga',
+    description: 'Soft cream lehenga with marigold embroidery — made for Diwali evenings and family gatherings.',
+    price: 5499,
+    gender: 'girls',
+    wearType: 'festive',
+    ageFromMonths: 24,
+    ageToMonths: 144,
+    colors: ['Cream', 'Honey'],
+    image: 'https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=800&q=80',
+    featured: true,
+    trending: true,
+  },
+  {
+    id: 'g-lotus-anarkali',
+    name: 'Lotus Bloom Anarkali',
+    description: 'Flowing anarkali with delicate lotus motifs — light enough for long festive days.',
+    price: 4799,
+    gender: 'girls',
+    wearType: 'festive',
+    ageFromMonths: 48,
+    ageToMonths: 180,
+    colors: ['Blush', 'Ivory'],
+    image: 'https://images.unsplash.com/photo-1471286174890-9c112ffca5b4?w=800&q=80',
+    featured: true,
+  },
+  {
+    id: 'b-diwali-kurta',
+    name: 'Temple Bell Kurta Set',
+    description: 'Cotton kurta and pants with subtle festive trim — comfortable through pooja and play.',
+    price: 3699,
+    gender: 'boys',
+    wearType: 'festive',
+    ageFromMonths: 12,
+    ageToMonths: 120,
+    colors: ['Ivory', 'Sage'],
+    image: 'https://images.unsplash.com/photo-1503919005314-30d93d07d823?w=800&q=80',
+    trending: true,
+  },
+  {
+    id: 'b-holi-sherwani',
+    name: 'Celebration Sherwani Jacket',
+    description: 'Soft-structured sherwani jacket in warm cream for weddings, festivals, and photo days.',
+    price: 6299,
+    gender: 'boys',
+    wearType: 'festive',
+    ageFromMonths: 36,
+    ageToMonths: 180,
+    colors: ['Cream', 'Champagne'],
+    image: 'https://images.unsplash.com/photo-1519237088770-31d8ea8e9c4e?w=800&q=80',
   },
 ];
 
@@ -277,8 +405,4 @@ export function formatPrice(price: number): string {
     currency: 'INR',
     maximumFractionDigits: 0,
   }).format(price);
-}
-
-export function ageBandLabel(band: AgeBand): string {
-  return AGE_BANDS.find((a) => a.value === band)?.label ?? band;
 }

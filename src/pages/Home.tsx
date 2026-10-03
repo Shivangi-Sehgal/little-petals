@@ -82,7 +82,7 @@ export function Home() {
         <div className="container">
           <div className="section__head">
             <h2>Dress the day</h2>
-            <p>Daily wear, night wear, and party wear — filtered to how they live.</p>
+            <p>Daily, night, party, and festive wear — filtered to how they live.</p>
           </div>
           <div className="wear-row">
             <Link to="/shop?wear=daily" className="wear-link">
@@ -112,6 +112,17 @@ export function Home() {
               </div>
               <h3>Party Wear</h3>
               <p>Celebration looks that sparkle softly</p>
+            </Link>
+            <Link to="/shop?wear=festive" className="wear-link">
+              <div className="wear-link__icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+                  <path d="M12 2v4M8 4l1.5 2.5M16 4l-1.5 2.5" />
+                  <path d="M6 10h12l-1 10H7L6 10z" />
+                  <path d="M9 14h6" />
+                </svg>
+              </div>
+              <h3>Festive Wear</h3>
+              <p>Tradition-ready looks for big days</p>
             </Link>
           </div>
         </div>

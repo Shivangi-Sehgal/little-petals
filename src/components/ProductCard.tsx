@@ -1,5 +1,10 @@
 import { Link } from 'react-router-dom';
-import { formatPrice, WEAR_TYPES } from '../data/products';
+import {
+  colorSwatch,
+  formatAgeRange,
+  formatPrice,
+  WEAR_TYPES,
+} from '../data/products';
 import type { Product } from '../types';
 
 export function ProductCard({ product }: { product: Product }) {
@@ -13,12 +18,37 @@ export function ProductCard({ product }: { product: Product }) {
       </div>
       <div className="product-card__body">
         <h3>{product.name}</h3>
-        <div className="product-card__meta">
-          <span>
-            {product.gender === 'girls' ? 'Girls' : 'Boys'} · {product.colors[0]}
-          </span>
-          <span className="product-card__price">{formatPrice(product.price)}</span>
-        </div>
+        <p className="product-card__gender">
+          {product.gender === 'girls' ? 'Girls' : 'Boys'}
+        </p>
+
+        <dl className="product-facts">
+          <div className="product-facts__row">
+            <dt>Price</dt>
+            <dd className="product-facts__price">{formatPrice(product.price)}</dd>
+          </div>
+          <div className="product-facts__row">
+            <dt>Age</dt>
+            <dd>{formatAgeRange(product.ageFromMonths, product.ageToMonths)}</dd>
+          </div>
+          <div className="product-facts__row product-facts__row--colors">
+            <dt>Colours</dt>
+            <dd>
+              <ul className="color-list">
+                {product.colors.map((c) => (
+                  <li key={c}>
+                    <span
+                      className="color-dot"
+                      style={{ backgroundColor: colorSwatch(c) }}
+                      aria-hidden="true"
+                    />
+                    {c}
+                  </li>
+                ))}
+              </ul>
+            </dd>
+          </div>
+        </dl>
       </div>
     </Link>
   );

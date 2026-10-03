@@ -1,19 +1,32 @@
 import { useMemo, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
-import { ageBandLabel, formatPrice, getProductById, WEAR_TYPES } from '../data/products';
-import type { AgeBand } from '../types';
+import {
+  colorSwatch,
+  formatAgeMonths,
+  formatAgeRange,
+  formatPrice,
+  getProductById,
+  sizesForProduct,
+  WEAR_TYPES,
+} from '../data/products';
 
 export function ProductDetail() {
   const { id } = useParams();
   const product = getProductById(id ?? '');
   const { addItem } = useCart();
-  const [size, setSize] = useState<AgeBand | null>(null);
+  const [sizeMonths, setSizeMonths] = useState<number | null>(null);
+  const [selectedColor, setSelectedColor] = useState<string | null>(null);
   const [qty, setQty] = useState(1);
   const [toast, setToast] = useState(false);
 
   const wearLabel = useMemo(
     () => WEAR_TYPES.find((w) => w.value === product?.wearType)?.label,
+    [product],
+  );
+
+  const sizes = useMemo(
+    () => (product ? sizesForProduct(product.ageFromMonths, product.ageToMonths) : []),
     [product],
   );
 
@@ -31,7 +44,8 @@ export function ProductDetail() {
     );
   }
 
-  const selectedSize = size ?? product.ageBands[0];
+  const selectedSize = sizeMonths ?? sizes[0];
+  const color = selectedColor ?? product.colors[0];
 
   const handleAdd = () => {
     addItem(product, selectedSize, qty);
@@ -47,33 +61,61 @@ export function ProductDetail() {
         </div>
         <div className="detail__info">
           <h1>{product.name}</h1>
-          <div className="detail__price">{formatPrice(product.price)}</div>
+          <p className="detail__subtitle">
+            {product.gender === 'girls' ? 'Girls' : 'Boys'} · {wearLabel}
+          </p>
+
+          <dl className="product-specs">
+            <div className="product-specs__item">
+              <dt>Price</dt>
+              <dd className="product-specs__price">{formatPrice(product.price)}</dd>
+            </div>
+            <div className="product-specs__item">
+              <dt>Age who can wear it</dt>
+              <dd>{formatAgeRange(product.ageFromMonths, product.ageToMonths)}</dd>
+            </div>
+            <div className="product-specs__item">
+              <dt>Colours available</dt>
+              <dd>
+                <ul className="color-list color-list--lg">
+                  {product.colors.map((c) => (
+                    <li key={c}>
+                      <button
+                        type="button"
+                        className={`color-choice ${color === c ? 'active' : ''}`}
+                        onClick={() => setSelectedColor(c)}
+                        aria-pressed={color === c}
+                      >
+                        <span
+                          className="color-dot"
+                          style={{ backgroundColor: colorSwatch(c) }}
+                          aria-hidden="true"
+                        />
+                        {c}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </dd>
+            </div>
+          </dl>
+
           <p className="detail__delivery">
             <span className="detail__delivery-pill">Instant nearby</span>
             Available depending on your distance from our boutique.
           </p>
           <p className="detail__desc">{product.description}</p>
 
-          <div className="detail__tags">
-            <span className="tag">{product.gender === 'girls' ? 'Girls' : 'Boys'}</span>
-            <span className="tag tag--sage">{wearLabel}</span>
-            {product.colors.map((c) => (
-              <span key={c} className="tag">
-                {c}
-              </span>
-            ))}
-          </div>
-
           <span className="field-label">Age / Size</span>
           <div className="size-grid">
-            {product.ageBands.map((band) => (
+            {sizes.map((months) => (
               <button
-                key={band}
+                key={months}
                 type="button"
-                className={`chip ${selectedSize === band ? 'active' : ''}`}
-                onClick={() => setSize(band)}
+                className={`chip ${selectedSize === months ? 'active' : ''}`}
+                onClick={() => setSizeMonths(months)}
               >
-                {ageBandLabel(band)}
+                {formatAgeMonths(months)}
               </button>
             ))}
           </div>
@@ -103,7 +145,7 @@ export function ProductDetail() {
       </div>
 
       <div className={`toast ${toast ? 'show' : ''}`} role="status">
-        Added to cart — {product.name} ({ageBandLabel(selectedSize)})
+        Added to cart — {product.name} · {color} · {formatAgeMonths(selectedSize)}
       </div>
     </div>
   );

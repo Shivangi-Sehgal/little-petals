@@ -6,15 +6,15 @@ import {
   useState,
   type ReactNode,
 } from 'react';
-import type { AgeBand, CartItem, Product } from '../types';
+import type { CartItem, Product } from '../types';
 
 interface CartContextValue {
   items: CartItem[];
   itemCount: number;
   subtotal: number;
-  addItem: (product: Product, size: AgeBand, quantity?: number) => void;
-  removeItem: (productId: string, size: AgeBand) => void;
-  updateQuantity: (productId: string, size: AgeBand, quantity: number) => void;
+  addItem: (product: Product, sizeMonths: number, quantity?: number) => void;
+  removeItem: (productId: string, sizeMonths: number) => void;
+  updateQuantity: (productId: string, sizeMonths: number, quantity: number) => void;
   clearCart: () => void;
 }
 
@@ -23,32 +23,36 @@ const CartContext = createContext<CartContextValue | null>(null);
 export function CartProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);
 
-  const addItem = useCallback((product: Product, size: AgeBand, quantity = 1) => {
+  const addItem = useCallback((product: Product, sizeMonths: number, quantity = 1) => {
     setItems((prev) => {
-      const existing = prev.find((i) => i.product.id === product.id && i.size === size);
+      const existing = prev.find((i) => i.product.id === product.id && i.sizeMonths === sizeMonths);
       if (existing) {
         return prev.map((i) =>
-          i.product.id === product.id && i.size === size
+          i.product.id === product.id && i.sizeMonths === sizeMonths
             ? { ...i, quantity: i.quantity + quantity }
             : i,
         );
       }
-      return [...prev, { product, size, quantity }];
+      return [...prev, { product, sizeMonths, quantity }];
     });
   }, []);
 
-  const removeItem = useCallback((productId: string, size: AgeBand) => {
-    setItems((prev) => prev.filter((i) => !(i.product.id === productId && i.size === size)));
+  const removeItem = useCallback((productId: string, sizeMonths: number) => {
+    setItems((prev) =>
+      prev.filter((i) => !(i.product.id === productId && i.sizeMonths === sizeMonths)),
+    );
   }, []);
 
-  const updateQuantity = useCallback((productId: string, size: AgeBand, quantity: number) => {
+  const updateQuantity = useCallback((productId: string, sizeMonths: number, quantity: number) => {
     if (quantity < 1) {
-      setItems((prev) => prev.filter((i) => !(i.product.id === productId && i.size === size)));
+      setItems((prev) =>
+        prev.filter((i) => !(i.product.id === productId && i.sizeMonths === sizeMonths)),
+      );
       return;
     }
     setItems((prev) =>
       prev.map((i) =>
-        i.product.id === productId && i.size === size ? { ...i, quantity } : i,
+        i.product.id === productId && i.sizeMonths === sizeMonths ? { ...i, quantity } : i,
       ),
     );
   }, []);
