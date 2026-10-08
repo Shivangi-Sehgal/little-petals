@@ -1,10 +1,12 @@
-<<<<<<< HEAD
-import { AGE_MAX_MONTHS, AGE_MIN_MONTHS, formatAgeMonths, PRICE_RANGES, WEAR_TYPES } from '../data/products';
-import type { Gender, PriceRange, ShopFilters, WearType } from '../types';
-=======
-import { AGE_BANDS, PRICE_RANGES, THEMES, WEAR_TYPES } from '../data/products';
-import type { AgeBand, Gender, PriceRange, ShopFilters, Theme, WearType } from '../types';
->>>>>>> ad921e3 (Added a Theme Feature.)
+import {
+  AGE_MAX_MONTHS,
+  AGE_MIN_MONTHS,
+  formatAgeMonths,
+  PRICE_RANGES,
+  THEMES,
+  WEAR_TYPES,
+} from '../data/products';
+import type { Gender, PriceRange, ShopFilters, Theme, WearType } from '../types';
 
 interface FiltersProps {
   filters: ShopFilters;

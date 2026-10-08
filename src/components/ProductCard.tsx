@@ -3,6 +3,7 @@ import {
   colorSwatch,
   formatAgeRange,
   formatPrice,
+  themeLabel,
   WEAR_TYPES,
 } from '../data/products';
 import type { Product } from '../types';
@@ -26,6 +27,10 @@ export function ProductCard({ product }: { product: Product }) {
           <div className="product-facts__row">
             <dt>Price</dt>
             <dd className="product-facts__price">{formatPrice(product.price)}</dd>
+          </div>
+          <div className="product-facts__row">
+            <dt>Theme</dt>
+            <dd>{themeLabel(product.theme)}</dd>
           </div>
           <div className="product-facts__row">
             <dt>Age</dt>

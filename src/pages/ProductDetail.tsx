@@ -8,6 +8,7 @@ import {
   formatPrice,
   getProductById,
   sizesForProduct,
+  themeLabel,
   WEAR_TYPES,
 } from '../data/products';
 
@@ -69,6 +70,12 @@ export function ProductDetail() {
             <div className="product-specs__item">
               <dt>Price</dt>
               <dd className="product-specs__price">{formatPrice(product.price)}</dd>
+            </div>
+            <div className="product-specs__item">
+              <dt>Theme</dt>
+              <dd>
+                <Link to={`/shop?theme=${product.theme}`}>{themeLabel(product.theme)}</Link>
+              </dd>
             </div>
             <div className="product-specs__item">
               <dt>Age who can wear it</dt>

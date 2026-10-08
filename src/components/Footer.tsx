@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { THEMES } from '../data/products';
 
 export function Footer() {
   return (
@@ -30,6 +31,16 @@ export function Footer() {
               <li>
                 <Link to="/shop?wear=festive">Festive Wear</Link>
               </li>
+            </ul>
+          </div>
+          <div>
+            <h4>Themes</h4>
+            <ul>
+              {THEMES.map((theme) => (
+                <li key={theme.value}>
+                  <Link to={`/shop?theme=${theme.value}`}>{theme.label}</Link>
+                </li>
+              ))}
             </ul>
           </div>
           <div>

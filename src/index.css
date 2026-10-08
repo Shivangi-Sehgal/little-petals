@@ -483,6 +483,12 @@ p {
   gap: 1.25rem;
 }
 
+.theme-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+
 .wear-link {
   padding: 2.25rem 1.5rem;
   text-align: center;
@@ -1247,6 +1253,12 @@ a.contact-tile:hover {
   color: var(--ink);
 }
 
+.product-specs__item dd a {
+  color: var(--blush-deep);
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+
 .product-specs__price {
   font-size: 1.45rem !important;
   font-weight: 700 !important;
@@ -1504,7 +1516,7 @@ a.contact-tile:hover {
 
 .footer__grid {
   display: grid;
-  grid-template-columns: 1.4fr 1fr 1fr 1fr;
+  grid-template-columns: 1.3fr repeat(4, 1fr);
   gap: 2rem;
   margin-bottom: 2.5rem;
 }
@@ -1567,7 +1579,8 @@ a.contact-tile:hover {
 
 /* ——— Responsive ——— */
 @media (max-width: 960px) {
-  .wear-row {
+  .wear-row,
+  .theme-row {
     grid-template-columns: repeat(2, 1fr);
   }
 
@@ -1632,7 +1645,8 @@ a.contact-tile:hover {
   }
 
   .gender-grid,
-  .wear-row {
+  .wear-row,
+  .theme-row {
     grid-template-columns: 1fr;
   }
 

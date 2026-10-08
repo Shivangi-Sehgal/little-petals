@@ -2,23 +2,19 @@ import { useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { FilterPanel } from '../components/FilterPanel';
 import { ProductCard } from '../components/ProductCard';
-<<<<<<< HEAD
 import {
   AGE_MAX_MONTHS,
   AGE_MIN_MONTHS,
   PRICE_RANGES,
   productFitsAgeFilter,
   products,
+  THEMES,
   WEAR_TYPES,
 } from '../data/products';
-import type { PriceRange, ShopFilters } from '../types';
-=======
-import { PRICE_RANGES, products } from '../data/products';
-import type { AgeBand, PriceRange, ShopFilters, Theme } from '../types';
->>>>>>> ad921e3 (Added a Theme Feature.)
+import type { PriceRange, ShopFilters, Theme } from '../types';
 
 const PRICE_RANGE_VALUES: PriceRange[] = ['under-2000', '2000-3500', '3500-5000', 'over-5000'];
-const THEME_VALUES: Theme[] = ['garden', 'dream', 'celebration', 'adventure'];
+const THEME_VALUES: Theme[] = THEMES.map((t) => t.value);
 
 const defaultFilters = (): ShopFilters => ({
   gender: 'all',
@@ -97,12 +93,8 @@ export function Shop() {
     let list = products.filter((p) => {
       if (filters.gender !== 'all' && p.gender !== filters.gender) return false;
       if (filters.wearType !== 'all' && p.wearType !== filters.wearType) return false;
-<<<<<<< HEAD
       if (!productFitsAgeFilter(p, filters.ageFromMonths, filters.ageToMonths)) return false;
-=======
-      if (filters.ageBand !== 'all' && !p.ageBands.includes(filters.ageBand as AgeBand)) return false;
       if (filters.theme !== 'all' && p.theme !== filters.theme) return false;
->>>>>>> ad921e3 (Added a Theme Feature.)
       if (range) {
         if (range.min != null && p.price < range.min) return false;
         if (range.max != null && p.price > range.max) return false;
@@ -130,6 +122,9 @@ export function Shop() {
   if (filters.gender !== 'all') titleParts.push(filters.gender === 'girls' ? 'Girls' : 'Boys');
   if (filters.wearType !== 'all') {
     titleParts.push(WEAR_TYPES.find((w) => w.value === filters.wearType)?.label ?? filters.wearType);
+  }
+  if (filters.theme !== 'all') {
+    titleParts.push(THEMES.find((t) => t.value === filters.theme)?.label ?? filters.theme);
   }
 
   return (

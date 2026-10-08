@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom';
+import type { Theme } from '../types';
 import { DeliveryFloat } from '../components/DeliveryFloat';
 import { FallingPetals } from '../components/Floral';
 import { ProductCard } from '../components/ProductCard';
 import { ReviewsMarquee } from '../components/ReviewsMarquee';
-import { products } from '../data/products';
+import { products, THEMES } from '../data/products';
 
 export function Home() {
   const featured = products.filter((p) => p.featured).slice(0, 6);
@@ -128,6 +129,26 @@ export function Home() {
         </div>
       </section>
 
+      <section className="section" style={{ paddingTop: 0 }}>
+        <div className="container">
+          <div className="section__head">
+            <h2>Children’s themes</h2>
+            <p>Pick a world — garden days, dreamland nights, parties, adventures, fairy tales, and festivals.</p>
+          </div>
+          <div className="theme-row">
+            {THEMES.map((theme) => (
+              <Link key={theme.value} to={`/shop?theme=${theme.value}`} className="wear-link">
+                <div className="wear-link__icon" aria-hidden="true">
+                  <ThemeIcon theme={theme.value} />
+                </div>
+                <h3>{theme.label}</h3>
+                <p>{theme.blurb}</p>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section className="section section--trending">
         <div className="container">
           <div className="section__head">
@@ -204,4 +225,56 @@ export function Home() {
       </section>
     </>
   );
+}
+
+function ThemeIcon({ theme }: { theme: Theme }) {
+  const common = {
+    width: 24,
+    height: 24,
+    viewBox: '0 0 24 24',
+    fill: 'none',
+    stroke: 'currentColor',
+    strokeWidth: 1.6,
+  } as const;
+
+  switch (theme) {
+    case 'garden':
+      return (
+        <svg {...common}>
+          <circle cx="12" cy="8" r="3" />
+          <path d="M12 11v9M9 20h6M8 14c-2 1-3 3-3 5M16 14c2 1 3 3 3 5" />
+        </svg>
+      );
+    case 'dream':
+      return (
+        <svg {...common}>
+          <path d="M20 14.5A8.5 8.5 0 1 1 9.5 4 7 7 0 0 0 20 14.5z" />
+        </svg>
+      );
+    case 'celebration':
+      return (
+        <svg {...common}>
+          <path d="M12 3l2.2 6.6H21l-5.4 4 2.1 6.4L12 16.4 6.3 20l2.1-6.4L3 9.6h6.8L12 3z" />
+        </svg>
+      );
+    case 'adventure':
+      return (
+        <svg {...common}>
+          <path d="M4 18l6-12 3 6 2-3 5 9H4z" />
+        </svg>
+      );
+    case 'fairy-tale':
+      return (
+        <svg {...common}>
+          <path d="M12 3l1.2 4.2L17 8.5l-3.8 1.3L12 14l-1.2-4.2L7 8.5l3.8-1.3L12 3z" />
+          <path d="M6 16l.6 2 2 .6-2 .6L6 21l-.6-1.8-2-.6 2-.6L6 16zM18 15l.5 1.6 1.5.5-1.5.5L18 19l-.5-1.4-1.5-.5 1.5-.5L18 15z" />
+        </svg>
+      );
+    case 'festival':
+      return (
+        <svg {...common}>
+          <path d="M12 3c2 3 2 5 0 8 2-1 4-1 6 1-2 0-3 1-3 3 2 0 3 2 2 4-2-1-4-1-5 1-1-2-3-2-5-1-1-2 0-4 2-4 0-2-1-3-3-3 2-2 4-2 6-1-2-3-2-5 0-8z" />
+        </svg>
+      );
+  }
 }

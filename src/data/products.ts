@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-import type { PriceRange, Product, WearType } from '../types';
-=======
-import type { AgeBand, PriceRange, Product, Theme, WearType } from '../types';
->>>>>>> ad921e3 (Added a Theme Feature.)
+import type { PriceRange, Product, Theme, WearType } from '../types';
 
 /** Full catalog age span: 1 month → 15 years. */
 export const AGE_MIN_MONTHS = 1;
@@ -15,12 +11,18 @@ export const WEAR_TYPES: { value: WearType; label: string }[] = [
   { value: 'festive', label: 'Festive Wear' },
 ];
 
-export const THEMES: { value: Theme; label: string }[] = [
-  { value: 'garden', label: 'Garden' },
-  { value: 'dream', label: 'Dreamland' },
-  { value: 'celebration', label: 'Celebration' },
-  { value: 'adventure', label: 'Adventure' },
+export const THEMES: { value: Theme; label: string; blurb: string }[] = [
+  { value: 'garden', label: 'Garden', blurb: 'Daisies, meadows, and wildflowers' },
+  { value: 'dream', label: 'Dreamland', blurb: 'Stars, moons, and bedtime calm' },
+  { value: 'celebration', label: 'Celebration', blurb: 'Birthdays, parties, and twirls' },
+  { value: 'adventure', label: 'Adventure', blurb: 'Trails, coasts, and play days' },
+  { value: 'fairy-tale', label: 'Fairy Tale', blurb: 'Lace, sparkle, and storybook days' },
+  { value: 'festival', label: 'Festival', blurb: 'Lehengas, kurtas, and festive evenings' },
 ];
+
+export function themeLabel(theme: Theme): string {
+  return THEMES.find((t) => t.value === theme)?.label ?? theme;
+}
 
 export const PRICE_RANGES: {
   value: PriceRange;
@@ -105,13 +107,9 @@ export const products: Product[] = [
     price: 2799,
     gender: 'girls',
     wearType: 'daily',
-<<<<<<< HEAD
+    theme: 'garden',
     ageFromMonths: 12,
     ageToMonths: 72,
-=======
-    theme: 'garden',
-    ageBands: ['1-2y', '2-4y', '4-6y'],
->>>>>>> ad921e3 (Added a Theme Feature.)
     colors: ['Ivory', 'Blush'],
     image: 'https://images.unsplash.com/photo-1518831959646-742c3a14ebf7?w=800&q=80',
     featured: true,
@@ -124,13 +122,9 @@ export const products: Product[] = [
     price: 3999,
     gender: 'girls',
     wearType: 'party',
-<<<<<<< HEAD
+    theme: 'celebration',
     ageFromMonths: 24,
     ageToMonths: 96,
-=======
-    theme: 'celebration',
-    ageBands: ['2-4y', '4-6y', '6-8y'],
->>>>>>> ad921e3 (Added a Theme Feature.)
     colors: ['Cream', 'Rose'],
     image: 'https://images.unsplash.com/photo-1471286174890-9c112ffca5b4?w=800&q=80',
     featured: true,
@@ -143,13 +137,9 @@ export const products: Product[] = [
     price: 2299,
     gender: 'girls',
     wearType: 'night',
-<<<<<<< HEAD
+    theme: 'dream',
     ageFromMonths: 12,
     ageToMonths: 96,
-=======
-    theme: 'dream',
-    ageBands: ['1-2y', '2-4y', '4-6y', '6-8y'],
->>>>>>> ad921e3 (Added a Theme Feature.)
     colors: ['Cloud', 'Sage'],
     image: 'https://images.unsplash.com/photo-1622290291468-a28f7a7dc6a8?w=800&q=80',
     featured: true,
@@ -161,13 +151,9 @@ export const products: Product[] = [
     price: 2099,
     gender: 'girls',
     wearType: 'daily',
-<<<<<<< HEAD
+    theme: 'garden',
     ageFromMonths: 1,
     ageToMonths: 24,
-=======
-    theme: 'garden',
-    ageBands: ['1-6m', '6-12m', '1-2y'],
->>>>>>> ad921e3 (Added a Theme Feature.)
     colors: ['Cream', 'Butter'],
     image: 'https://images.unsplash.com/photo-1522771930-78848d9293e8?w=800&q=80',
     trending: true,
@@ -179,13 +165,9 @@ export const products: Product[] = [
     price: 5199,
     gender: 'girls',
     wearType: 'party',
-<<<<<<< HEAD
+    theme: 'fairy-tale',
     ageFromMonths: 48,
     ageToMonths: 144,
-=======
-    theme: 'celebration',
-    ageBands: ['4-6y', '6-8y', '8-10y', '10-12y'],
->>>>>>> ad921e3 (Added a Theme Feature.)
     colors: ['Ivory'],
     image: 'https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=800&q=80',
     featured: true,
@@ -197,13 +179,9 @@ export const products: Product[] = [
     price: 2999,
     gender: 'girls',
     wearType: 'daily',
-<<<<<<< HEAD
+    theme: 'garden',
     ageFromMonths: 24,
     ageToMonths: 120,
-=======
-    theme: 'garden',
-    ageBands: ['2-4y', '4-6y', '6-8y', '8-10y'],
->>>>>>> ad921e3 (Added a Theme Feature.)
     colors: ['Cream', 'Dusty Pink'],
     image: 'https://images.unsplash.com/photo-1503919545889-aef636e10ad5?w=800&q=80',
   },
@@ -214,13 +192,9 @@ export const products: Product[] = [
     price: 2599,
     gender: 'girls',
     wearType: 'night',
-<<<<<<< HEAD
+    theme: 'dream',
     ageFromMonths: 72,
     ageToMonths: 180,
-=======
-    theme: 'dream',
-    ageBands: ['6-8y', '8-10y', '10-12y', '12-15y'],
->>>>>>> ad921e3 (Added a Theme Feature.)
     colors: ['Pearl', 'Lilac Mist'],
     image: 'https://images.unsplash.com/photo-1596870230751-ebdfce98ec42?w=800&q=80',
   },
@@ -231,13 +205,9 @@ export const products: Product[] = [
     price: 3499,
     gender: 'girls',
     wearType: 'daily',
-<<<<<<< HEAD
+    theme: 'garden',
     ageFromMonths: 48,
     ageToMonths: 144,
-=======
-    theme: 'garden',
-    ageBands: ['4-6y', '6-8y', '8-10y', '10-12y'],
->>>>>>> ad921e3 (Added a Theme Feature.)
     colors: ['White', 'Blush'],
     image: 'https://images.unsplash.com/photo-1566454825481-4e48b8c8c0b1?w=800&q=80',
     trending: true,
@@ -249,13 +219,9 @@ export const products: Product[] = [
     price: 4499,
     gender: 'girls',
     wearType: 'party',
-<<<<<<< HEAD
+    theme: 'fairy-tale',
     ageFromMonths: 96,
     ageToMonths: 180,
-=======
-    theme: 'celebration',
-    ageBands: ['8-10y', '10-12y', '12-15y'],
->>>>>>> ad921e3 (Added a Theme Feature.)
     colors: ['Champagne'],
     image: 'https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?w=800&q=80',
   },
@@ -266,13 +232,9 @@ export const products: Product[] = [
     price: 3199,
     gender: 'boys',
     wearType: 'daily',
-<<<<<<< HEAD
+    theme: 'adventure',
     ageFromMonths: 24,
     ageToMonths: 96,
-=======
-    theme: 'adventure',
-    ageBands: ['2-4y', '4-6y', '6-8y'],
->>>>>>> ad921e3 (Added a Theme Feature.)
     colors: ['Cream', 'Sand'],
     image: 'https://images.unsplash.com/photo-1503919005314-30d93d07d823?w=800&q=80',
     featured: true,
@@ -285,13 +247,9 @@ export const products: Product[] = [
     price: 4799,
     gender: 'boys',
     wearType: 'party',
-<<<<<<< HEAD
+    theme: 'celebration',
     ageFromMonths: 24,
     ageToMonths: 120,
-=======
-    theme: 'celebration',
-    ageBands: ['2-4y', '4-6y', '6-8y', '8-10y'],
->>>>>>> ad921e3 (Added a Theme Feature.)
     colors: ['Ivory', 'Sage'],
     image: 'https://images.unsplash.com/photo-1519237088770-31d8ea8e9c4e?w=800&q=80',
     featured: true,
@@ -303,13 +261,9 @@ export const products: Product[] = [
     price: 2499,
     gender: 'boys',
     wearType: 'night',
-<<<<<<< HEAD
+    theme: 'dream',
     ageFromMonths: 12,
     ageToMonths: 96,
-=======
-    theme: 'dream',
-    ageBands: ['1-2y', '2-4y', '4-6y', '6-8y'],
->>>>>>> ad921e3 (Added a Theme Feature.)
     colors: ['Sky', 'Cream'],
     image: 'https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?w=800&q=80',
   },
@@ -320,13 +274,9 @@ export const products: Product[] = [
     price: 1499,
     gender: 'boys',
     wearType: 'daily',
-<<<<<<< HEAD
+    theme: 'adventure',
     ageFromMonths: 12,
     ageToMonths: 120,
-=======
-    theme: 'adventure',
-    ageBands: ['1-2y', '2-4y', '4-6y', '6-8y', '8-10y'],
->>>>>>> ad921e3 (Added a Theme Feature.)
     colors: ['White', 'Olive'],
     image: 'https://images.unsplash.com/photo-1519237088770-31d8ea8e9c4e?w=800&q=80',
     trending: true,
@@ -338,13 +288,9 @@ export const products: Product[] = [
     price: 1799,
     gender: 'boys',
     wearType: 'daily',
-<<<<<<< HEAD
+    theme: 'garden',
     ageFromMonths: 1,
     ageToMonths: 12,
-=======
-    theme: 'garden',
-    ageBands: ['1-6m', '6-12m'],
->>>>>>> ad921e3 (Added a Theme Feature.)
     colors: ['Cream', 'Sage'],
     image: 'https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=800&q=80',
     featured: true,
@@ -356,13 +302,9 @@ export const products: Product[] = [
     price: 2999,
     gender: 'boys',
     wearType: 'party',
-<<<<<<< HEAD
+    theme: 'garden',
     ageFromMonths: 48,
     ageToMonths: 180,
-=======
-    theme: 'garden',
-    ageBands: ['4-6y', '6-8y', '8-10y', '10-12y', '12-15y'],
->>>>>>> ad921e3 (Added a Theme Feature.)
     colors: ['White'],
     image: 'https://images.unsplash.com/photo-1503919545889-aef636e10ad5?w=800&q=80',
   },
@@ -373,13 +315,9 @@ export const products: Product[] = [
     price: 3299,
     gender: 'boys',
     wearType: 'night',
-<<<<<<< HEAD
+    theme: 'dream',
     ageFromMonths: 48,
     ageToMonths: 144,
-=======
-    theme: 'dream',
-    ageBands: ['4-6y', '6-8y', '8-10y', '10-12y'],
->>>>>>> ad921e3 (Added a Theme Feature.)
     colors: ['Honey', 'Cream'],
     image: 'https://images.unsplash.com/photo-1622290291468-a28f7a7dc6a8?w=800&q=80',
   },
@@ -390,13 +328,9 @@ export const products: Product[] = [
     price: 1999,
     gender: 'boys',
     wearType: 'daily',
-<<<<<<< HEAD
+    theme: 'adventure',
     ageFromMonths: 72,
     ageToMonths: 180,
-=======
-    theme: 'adventure',
-    ageBands: ['6-8y', '8-10y', '10-12y', '12-15y'],
->>>>>>> ad921e3 (Added a Theme Feature.)
     colors: ['Khaki', 'Stone'],
     image: 'https://images.unsplash.com/photo-1503919005314-30d93d07d823?w=800&q=80',
   },
@@ -407,13 +341,9 @@ export const products: Product[] = [
     price: 5999,
     gender: 'boys',
     wearType: 'party',
-<<<<<<< HEAD
+    theme: 'celebration',
     ageFromMonths: 72,
     ageToMonths: 180,
-=======
-    theme: 'celebration',
-    ageBands: ['6-8y', '8-10y', '10-12y', '12-15y'],
->>>>>>> ad921e3 (Added a Theme Feature.)
     colors: ['Cream', 'Navy Trim'],
     image: 'https://images.unsplash.com/photo-1471286174890-9c112ffca5b4?w=800&q=80',
     trending: true,
@@ -425,13 +355,9 @@ export const products: Product[] = [
     price: 3199,
     gender: 'girls',
     wearType: 'daily',
-<<<<<<< HEAD
+    theme: 'garden',
     ageFromMonths: 72,
     ageToMonths: 180,
-=======
-    theme: 'garden',
-    ageBands: ['6-8y', '8-10y', '10-12y', '12-15y'],
->>>>>>> ad921e3 (Added a Theme Feature.)
     colors: ['Cream', 'Rose'],
     image: 'https://images.unsplash.com/photo-1518831959646-742c3a14ebf7?w=800&q=80',
   },
@@ -442,13 +368,9 @@ export const products: Product[] = [
     price: 2099,
     gender: 'boys',
     wearType: 'night',
-<<<<<<< HEAD
+    theme: 'garden',
     ageFromMonths: 96,
     ageToMonths: 180,
-=======
-    theme: 'garden',
-    ageBands: ['8-10y', '10-12y', '12-15y'],
->>>>>>> ad921e3 (Added a Theme Feature.)
     colors: ['Fog', 'Cream'],
     image: 'https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=800&q=80',
   },
@@ -459,6 +381,7 @@ export const products: Product[] = [
     price: 5499,
     gender: 'girls',
     wearType: 'festive',
+    theme: 'festival',
     ageFromMonths: 24,
     ageToMonths: 144,
     colors: ['Cream', 'Honey'],
@@ -473,6 +396,7 @@ export const products: Product[] = [
     price: 4799,
     gender: 'girls',
     wearType: 'festive',
+    theme: 'festival',
     ageFromMonths: 48,
     ageToMonths: 180,
     colors: ['Blush', 'Ivory'],
@@ -486,6 +410,7 @@ export const products: Product[] = [
     price: 3699,
     gender: 'boys',
     wearType: 'festive',
+    theme: 'festival',
     ageFromMonths: 12,
     ageToMonths: 120,
     colors: ['Ivory', 'Sage'],
@@ -499,6 +424,7 @@ export const products: Product[] = [
     price: 6299,
     gender: 'boys',
     wearType: 'festive',
+    theme: 'festival',
     ageFromMonths: 36,
     ageToMonths: 180,
     colors: ['Cream', 'Champagne'],
