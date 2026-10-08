@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 import { AGE_MAX_MONTHS, AGE_MIN_MONTHS, formatAgeMonths, PRICE_RANGES, WEAR_TYPES } from '../data/products';
 import type { Gender, PriceRange, ShopFilters, WearType } from '../types';
+=======
+import { AGE_BANDS, PRICE_RANGES, THEMES, WEAR_TYPES } from '../data/products';
+import type { AgeBand, Gender, PriceRange, ShopFilters, Theme, WearType } from '../types';
+>>>>>>> ad921e3 (Added a Theme Feature.)
 
 interface FiltersProps {
   filters: ShopFilters;
@@ -114,6 +119,29 @@ export function FilterPanel({ filters, onChange, onReset }: FiltersProps) {
               onClick={() => onChange({ priceRange: r.value as PriceRange })}
             >
               {r.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div className="filter-group">
+        <h3>Theme</h3>
+        <div className="chip-row">
+          <button
+            type="button"
+            className={`chip ${filters.theme === 'all' ? 'active' : ''}`}
+            onClick={() => onChange({ theme: 'all' })}
+          >
+            All themes
+          </button>
+          {THEMES.map((t) => (
+            <button
+              key={t.value}
+              type="button"
+              className={`chip ${filters.theme === t.value ? 'active' : ''}`}
+              onClick={() => onChange({ theme: t.value as Theme })}
+            >
+              {t.label}
             </button>
           ))}
         </div>

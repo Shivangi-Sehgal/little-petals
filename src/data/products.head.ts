@@ -1,10 +1,6 @@
-<<<<<<< HEAD
-import type { PriceRange, Product, WearType } from '../types';
-=======
-import type { AgeBand, PriceRange, Product, Theme, WearType } from '../types';
->>>>>>> ad921e3 (Added a Theme Feature.)
+﻿import type { PriceRange, Product, WearType } from '../types';
 
-/** Full catalog age span: 1 month → 15 years. */
+/** Full catalog age span: 1 month ΓåÆ 15 years. */
 export const AGE_MIN_MONTHS = 1;
 export const AGE_MAX_MONTHS = 15 * 12; // 180
 
@@ -15,26 +11,19 @@ export const WEAR_TYPES: { value: WearType; label: string }[] = [
   { value: 'festive', label: 'Festive Wear' },
 ];
 
-export const THEMES: { value: Theme; label: string }[] = [
-  { value: 'garden', label: 'Garden' },
-  { value: 'dream', label: 'Dreamland' },
-  { value: 'celebration', label: 'Celebration' },
-  { value: 'adventure', label: 'Adventure' },
-];
-
 export const PRICE_RANGES: {
   value: PriceRange;
   label: string;
   min: number | null;
   max: number | null;
 }[] = [
-  { value: 'under-2000', label: 'Under ₹2,000', min: null, max: 1999 },
-  { value: '2000-3500', label: '₹2,000 – ₹3,500', min: 2000, max: 3499 },
-  { value: '3500-5000', label: '₹3,500 – ₹5,000', min: 3500, max: 5000 },
-  { value: 'over-5000', label: 'Over ₹5,000', min: 5001, max: null },
+  { value: 'under-2000', label: 'Under Γé╣2,000', min: null, max: 1999 },
+  { value: '2000-3500', label: 'Γé╣2,000 ΓÇô Γé╣3,500', min: 2000, max: 3499 },
+  { value: '3500-5000', label: 'Γé╣3,500 ΓÇô Γé╣5,000', min: 3500, max: 5000 },
+  { value: 'over-5000', label: 'Over Γé╣5,000', min: 5001, max: null },
 ];
 
-/** Standard size points along 1 month → 15 years. */
+/** Standard size points along 1 month ΓåÆ 15 years. */
 const SIZE_POINTS_MONTHS = [
   1, 3, 6, 9, 12, 18,
   24, 36, 48, 60, 72, 84, 96, 108, 120, 132, 144, 156, 168, 180,
@@ -54,7 +43,7 @@ export function formatAgeMonths(months: number): string {
 
 export function formatAgeRange(from: number, to: number): string {
   if (from === to) return formatAgeMonths(from);
-  return `${formatAgeMonths(from)} – ${formatAgeMonths(to)}`;
+  return `${formatAgeMonths(from)} ΓÇô ${formatAgeMonths(to)}`;
 }
 
 const COLOR_SWATCHES: Record<string, string> = {
@@ -101,17 +90,12 @@ export const products: Product[] = [
   {
     id: 'g-daisy-dress',
     name: 'Daisy Garden Dress',
-    description: 'A breezy cotton dress scattered with soft daisy prints — perfect for sunny park days and playdates.',
+    description: 'A breezy cotton dress scattered with soft daisy prints ΓÇö perfect for sunny park days and playdates.',
     price: 2799,
     gender: 'girls',
     wearType: 'daily',
-<<<<<<< HEAD
     ageFromMonths: 12,
     ageToMonths: 72,
-=======
-    theme: 'garden',
-    ageBands: ['1-2y', '2-4y', '4-6y'],
->>>>>>> ad921e3 (Added a Theme Feature.)
     colors: ['Ivory', 'Blush'],
     image: 'https://images.unsplash.com/photo-1518831959646-742c3a14ebf7?w=800&q=80',
     featured: true,
@@ -124,13 +108,8 @@ export const products: Product[] = [
     price: 3999,
     gender: 'girls',
     wearType: 'party',
-<<<<<<< HEAD
     ageFromMonths: 24,
     ageToMonths: 96,
-=======
-    theme: 'celebration',
-    ageBands: ['2-4y', '4-6y', '6-8y'],
->>>>>>> ad921e3 (Added a Theme Feature.)
     colors: ['Cream', 'Rose'],
     image: 'https://images.unsplash.com/photo-1471286174890-9c112ffca5b4?w=800&q=80',
     featured: true,
@@ -143,13 +122,8 @@ export const products: Product[] = [
     price: 2299,
     gender: 'girls',
     wearType: 'night',
-<<<<<<< HEAD
     ageFromMonths: 12,
     ageToMonths: 96,
-=======
-    theme: 'dream',
-    ageBands: ['1-2y', '2-4y', '4-6y', '6-8y'],
->>>>>>> ad921e3 (Added a Theme Feature.)
     colors: ['Cloud', 'Sage'],
     image: 'https://images.unsplash.com/photo-1622290291468-a28f7a7dc6a8?w=800&q=80',
     featured: true,
@@ -161,13 +135,8 @@ export const products: Product[] = [
     price: 2099,
     gender: 'girls',
     wearType: 'daily',
-<<<<<<< HEAD
     ageFromMonths: 1,
     ageToMonths: 24,
-=======
-    theme: 'garden',
-    ageBands: ['1-6m', '6-12m', '1-2y'],
->>>>>>> ad921e3 (Added a Theme Feature.)
     colors: ['Cream', 'Butter'],
     image: 'https://images.unsplash.com/photo-1522771930-78848d9293e8?w=800&q=80',
     trending: true,
@@ -175,17 +144,12 @@ export const products: Product[] = [
   {
     id: 'g-lace-occasion',
     name: 'Ivory Lace Occasion Dress',
-    description: 'Elegant ivory lace overlay with a soft lining — made for weddings, holidays, and special Sundays.',
+    description: 'Elegant ivory lace overlay with a soft lining ΓÇö made for weddings, holidays, and special Sundays.',
     price: 5199,
     gender: 'girls',
     wearType: 'party',
-<<<<<<< HEAD
     ageFromMonths: 48,
     ageToMonths: 144,
-=======
-    theme: 'celebration',
-    ageBands: ['4-6y', '6-8y', '8-10y', '10-12y'],
->>>>>>> ad921e3 (Added a Theme Feature.)
     colors: ['Ivory'],
     image: 'https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=800&q=80',
     featured: true,
@@ -193,34 +157,24 @@ export const products: Product[] = [
   {
     id: 'g-soft-cardigan',
     name: 'Wildflower Cardigan',
-    description: 'Lightweight knit cardigan with subtle floral embroidery — layer it over any daily look.',
+    description: 'Lightweight knit cardigan with subtle floral embroidery ΓÇö layer it over any daily look.',
     price: 2999,
     gender: 'girls',
     wearType: 'daily',
-<<<<<<< HEAD
     ageFromMonths: 24,
     ageToMonths: 120,
-=======
-    theme: 'garden',
-    ageBands: ['2-4y', '4-6y', '6-8y', '8-10y'],
->>>>>>> ad921e3 (Added a Theme Feature.)
     colors: ['Cream', 'Dusty Pink'],
     image: 'https://images.unsplash.com/photo-1503919545889-aef636e10ad5?w=800&q=80',
   },
   {
     id: 'g-starlight-gown',
     name: 'Starlight Sleep Gown',
-    description: 'Flowing night gown with tiny star and blossom prints — dreamy from dusk to dawn.',
+    description: 'Flowing night gown with tiny star and blossom prints ΓÇö dreamy from dusk to dawn.',
     price: 2599,
     gender: 'girls',
     wearType: 'night',
-<<<<<<< HEAD
     ageFromMonths: 72,
     ageToMonths: 180,
-=======
-    theme: 'dream',
-    ageBands: ['6-8y', '8-10y', '10-12y', '12-15y'],
->>>>>>> ad921e3 (Added a Theme Feature.)
     colors: ['Pearl', 'Lilac Mist'],
     image: 'https://images.unsplash.com/photo-1596870230751-ebdfce98ec42?w=800&q=80',
   },
@@ -231,13 +185,8 @@ export const products: Product[] = [
     price: 3499,
     gender: 'girls',
     wearType: 'daily',
-<<<<<<< HEAD
     ageFromMonths: 48,
     ageToMonths: 144,
-=======
-    theme: 'garden',
-    ageBands: ['4-6y', '6-8y', '8-10y', '10-12y'],
->>>>>>> ad921e3 (Added a Theme Feature.)
     colors: ['White', 'Blush'],
     image: 'https://images.unsplash.com/photo-1566454825481-4e48b8c8c0b1?w=800&q=80',
     trending: true,
@@ -245,34 +194,24 @@ export const products: Product[] = [
   {
     id: 'g-party-jumpsuit',
     name: 'Champagne Sparkle Jumpsuit',
-    description: 'Shimmering party jumpsuit with soft stretch — easy to wear, hard to forget.',
+    description: 'Shimmering party jumpsuit with soft stretch ΓÇö easy to wear, hard to forget.',
     price: 4499,
     gender: 'girls',
     wearType: 'party',
-<<<<<<< HEAD
     ageFromMonths: 96,
     ageToMonths: 180,
-=======
-    theme: 'celebration',
-    ageBands: ['8-10y', '10-12y', '12-15y'],
->>>>>>> ad921e3 (Added a Theme Feature.)
     colors: ['Champagne'],
     image: 'https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?w=800&q=80',
   },
   {
     id: 'b-linen-set',
     name: 'Coastal Linen Set',
-    description: 'Breathable linen shirt and shorts in warm cream — weekend adventures, covered.',
+    description: 'Breathable linen shirt and shorts in warm cream ΓÇö weekend adventures, covered.',
     price: 3199,
     gender: 'boys',
     wearType: 'daily',
-<<<<<<< HEAD
     ageFromMonths: 24,
     ageToMonths: 96,
-=======
-    theme: 'adventure',
-    ageBands: ['2-4y', '4-6y', '6-8y'],
->>>>>>> ad921e3 (Added a Theme Feature.)
     colors: ['Cream', 'Sand'],
     image: 'https://images.unsplash.com/photo-1503919005314-30d93d07d823?w=800&q=80',
     featured: true,
@@ -285,13 +224,8 @@ export const products: Product[] = [
     price: 4799,
     gender: 'boys',
     wearType: 'party',
-<<<<<<< HEAD
     ageFromMonths: 24,
     ageToMonths: 120,
-=======
-    theme: 'celebration',
-    ageBands: ['2-4y', '4-6y', '6-8y', '8-10y'],
->>>>>>> ad921e3 (Added a Theme Feature.)
     colors: ['Ivory', 'Sage'],
     image: 'https://images.unsplash.com/photo-1519237088770-31d8ea8e9c4e?w=800&q=80',
     featured: true,
@@ -299,34 +233,24 @@ export const products: Product[] = [
   {
     id: 'b-cloud-pj',
     name: 'Cloud Soft PJ Set',
-    description: 'Ultra-soft nightwear with subtle botanical prints — built for bedtime comfort.',
+    description: 'Ultra-soft nightwear with subtle botanical prints ΓÇö built for bedtime comfort.',
     price: 2499,
     gender: 'boys',
     wearType: 'night',
-<<<<<<< HEAD
     ageFromMonths: 12,
     ageToMonths: 96,
-=======
-    theme: 'dream',
-    ageBands: ['1-2y', '2-4y', '4-6y', '6-8y'],
->>>>>>> ad921e3 (Added a Theme Feature.)
     colors: ['Sky', 'Cream'],
     image: 'https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?w=800&q=80',
   },
   {
     id: 'b-explorer-tee',
     name: 'Explorer Pocket Tee',
-    description: 'Everyday cotton tee with a flower-stamped pocket — made for climbing, running, and snacks.',
+    description: 'Everyday cotton tee with a flower-stamped pocket ΓÇö made for climbing, running, and snacks.',
     price: 1499,
     gender: 'boys',
     wearType: 'daily',
-<<<<<<< HEAD
     ageFromMonths: 12,
     ageToMonths: 120,
-=======
-    theme: 'adventure',
-    ageBands: ['1-2y', '2-4y', '4-6y', '6-8y', '8-10y'],
->>>>>>> ad921e3 (Added a Theme Feature.)
     colors: ['White', 'Olive'],
     image: 'https://images.unsplash.com/photo-1519237088770-31d8ea8e9c4e?w=800&q=80',
     trending: true,
@@ -334,17 +258,12 @@ export const products: Product[] = [
   {
     id: 'b-baby-onesie',
     name: 'First Petals Onesie',
-    description: 'Gentle organic cotton onesie with tiny embroidered blooms for baby’s first months.',
+    description: 'Gentle organic cotton onesie with tiny embroidered blooms for babyΓÇÖs first months.',
     price: 1799,
     gender: 'boys',
     wearType: 'daily',
-<<<<<<< HEAD
     ageFromMonths: 1,
     ageToMonths: 12,
-=======
-    theme: 'garden',
-    ageBands: ['1-6m', '6-12m'],
->>>>>>> ad921e3 (Added a Theme Feature.)
     colors: ['Cream', 'Sage'],
     image: 'https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=800&q=80',
     featured: true,
@@ -352,17 +271,12 @@ export const products: Product[] = [
   {
     id: 'b-festive-shirt',
     name: 'Garden Party Shirt',
-    description: 'Crisp white shirt with subtle floral trim — sharp enough for celebrations, soft enough for play.',
+    description: 'Crisp white shirt with subtle floral trim ΓÇö sharp enough for celebrations, soft enough for play.',
     price: 2999,
     gender: 'boys',
     wearType: 'party',
-<<<<<<< HEAD
     ageFromMonths: 48,
     ageToMonths: 180,
-=======
-    theme: 'garden',
-    ageBands: ['4-6y', '6-8y', '8-10y', '10-12y', '12-15y'],
->>>>>>> ad921e3 (Added a Theme Feature.)
     colors: ['White'],
     image: 'https://images.unsplash.com/photo-1503919545889-aef636e10ad5?w=800&q=80',
   },
@@ -373,13 +287,8 @@ export const products: Product[] = [
     price: 3299,
     gender: 'boys',
     wearType: 'night',
-<<<<<<< HEAD
     ageFromMonths: 48,
     ageToMonths: 144,
-=======
-    theme: 'dream',
-    ageBands: ['4-6y', '6-8y', '8-10y', '10-12y'],
->>>>>>> ad921e3 (Added a Theme Feature.)
     colors: ['Honey', 'Cream'],
     image: 'https://images.unsplash.com/photo-1622290291468-a28f7a7dc6a8?w=800&q=80',
   },
@@ -390,30 +299,20 @@ export const products: Product[] = [
     price: 1999,
     gender: 'boys',
     wearType: 'daily',
-<<<<<<< HEAD
     ageFromMonths: 72,
     ageToMonths: 180,
-=======
-    theme: 'adventure',
-    ageBands: ['6-8y', '8-10y', '10-12y', '12-15y'],
->>>>>>> ad921e3 (Added a Theme Feature.)
     colors: ['Khaki', 'Stone'],
     image: 'https://images.unsplash.com/photo-1503919005314-30d93d07d823?w=800&q=80',
   },
   {
     id: 'b-suit-set',
     name: 'Celebration Suit Set',
-    description: 'Two-piece party set in soft cream — jacket and trousers that grow with big moments.',
+    description: 'Two-piece party set in soft cream ΓÇö jacket and trousers that grow with big moments.',
     price: 5999,
     gender: 'boys',
     wearType: 'party',
-<<<<<<< HEAD
     ageFromMonths: 72,
     ageToMonths: 180,
-=======
-    theme: 'celebration',
-    ageBands: ['6-8y', '8-10y', '10-12y', '12-15y'],
->>>>>>> ad921e3 (Added a Theme Feature.)
     colors: ['Cream', 'Navy Trim'],
     image: 'https://images.unsplash.com/photo-1471286174890-9c112ffca5b4?w=800&q=80',
     trending: true,
@@ -421,17 +320,12 @@ export const products: Product[] = [
   {
     id: 'g-knit-dress',
     name: 'Meadow Knit Dress',
-    description: 'Stretch-knit dress with scattered meadow florals — school days to weekend brunches.',
+    description: 'Stretch-knit dress with scattered meadow florals ΓÇö school days to weekend brunches.',
     price: 3199,
     gender: 'girls',
     wearType: 'daily',
-<<<<<<< HEAD
     ageFromMonths: 72,
     ageToMonths: 180,
-=======
-    theme: 'garden',
-    ageBands: ['6-8y', '8-10y', '10-12y', '12-15y'],
->>>>>>> ad921e3 (Added a Theme Feature.)
     colors: ['Cream', 'Rose'],
     image: 'https://images.unsplash.com/photo-1518831959646-742c3a14ebf7?w=800&q=80',
   },
@@ -442,20 +336,15 @@ export const products: Product[] = [
     price: 2099,
     gender: 'boys',
     wearType: 'night',
-<<<<<<< HEAD
     ageFromMonths: 96,
     ageToMonths: 180,
-=======
-    theme: 'garden',
-    ageBands: ['8-10y', '10-12y', '12-15y'],
->>>>>>> ad921e3 (Added a Theme Feature.)
     colors: ['Fog', 'Cream'],
     image: 'https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=800&q=80',
   },
   {
     id: 'g-marigold-lehenga',
     name: 'Marigold Festival Lehenga',
-    description: 'Soft cream lehenga with marigold embroidery — made for Diwali evenings and family gatherings.',
+    description: 'Soft cream lehenga with marigold embroidery ΓÇö made for Diwali evenings and family gatherings.',
     price: 5499,
     gender: 'girls',
     wearType: 'festive',
@@ -469,7 +358,7 @@ export const products: Product[] = [
   {
     id: 'g-lotus-anarkali',
     name: 'Lotus Bloom Anarkali',
-    description: 'Flowing anarkali with delicate lotus motifs — light enough for long festive days.',
+    description: 'Flowing anarkali with delicate lotus motifs ΓÇö light enough for long festive days.',
     price: 4799,
     gender: 'girls',
     wearType: 'festive',
@@ -482,7 +371,7 @@ export const products: Product[] = [
   {
     id: 'b-diwali-kurta',
     name: 'Temple Bell Kurta Set',
-    description: 'Cotton kurta and pants with subtle festive trim — comfortable through pooja and play.',
+    description: 'Cotton kurta and pants with subtle festive trim ΓÇö comfortable through pooja and play.',
     price: 3699,
     gender: 'boys',
     wearType: 'festive',

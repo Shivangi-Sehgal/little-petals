@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { FilterPanel } from '../components/FilterPanel';
 import { ProductCard } from '../components/ProductCard';
+<<<<<<< HEAD
 import {
   AGE_MAX_MONTHS,
   AGE_MIN_MONTHS,
@@ -11,8 +12,13 @@ import {
   WEAR_TYPES,
 } from '../data/products';
 import type { PriceRange, ShopFilters } from '../types';
+=======
+import { PRICE_RANGES, products } from '../data/products';
+import type { AgeBand, PriceRange, ShopFilters, Theme } from '../types';
+>>>>>>> ad921e3 (Added a Theme Feature.)
 
 const PRICE_RANGE_VALUES: PriceRange[] = ['under-2000', '2000-3500', '3500-5000', 'over-5000'];
+const THEME_VALUES: Theme[] = ['garden', 'dream', 'celebration', 'adventure'];
 
 const defaultFilters = (): ShopFilters => ({
   gender: 'all',
@@ -20,6 +26,7 @@ const defaultFilters = (): ShopFilters => ({
   ageFromMonths: AGE_MIN_MONTHS,
   ageToMonths: AGE_MAX_MONTHS,
   priceRange: 'all',
+  theme: 'all',
   sort: 'featured',
 });
 
@@ -30,6 +37,7 @@ function parseFilters(params: URLSearchParams): ShopFilters {
   const ageFrom = params.get('ageFrom');
   const ageTo = params.get('ageTo');
   const price = params.get('price');
+  const theme = params.get('theme');
   const sort = params.get('sort');
 
   if (gender === 'girls' || gender === 'boys') base.gender = gender;
@@ -48,6 +56,9 @@ function parseFilters(params: URLSearchParams): ShopFilters {
   if (price && PRICE_RANGE_VALUES.includes(price as PriceRange)) {
     base.priceRange = price as PriceRange;
   }
+  if (theme && THEME_VALUES.includes(theme as Theme)) {
+    base.theme = theme as Theme;
+  }
   if (sort === 'price-asc' || sort === 'price-desc' || sort === 'name' || sort === 'featured') {
     base.sort = sort;
   }
@@ -61,6 +72,7 @@ function toParams(filters: ShopFilters): URLSearchParams {
   if (filters.ageFromMonths !== AGE_MIN_MONTHS) p.set('ageFrom', String(filters.ageFromMonths));
   if (filters.ageToMonths !== AGE_MAX_MONTHS) p.set('ageTo', String(filters.ageToMonths));
   if (filters.priceRange !== 'all') p.set('price', filters.priceRange);
+  if (filters.theme !== 'all') p.set('theme', filters.theme);
   if (filters.sort !== 'featured') p.set('sort', filters.sort);
   return p;
 }
@@ -85,7 +97,12 @@ export function Shop() {
     let list = products.filter((p) => {
       if (filters.gender !== 'all' && p.gender !== filters.gender) return false;
       if (filters.wearType !== 'all' && p.wearType !== filters.wearType) return false;
+<<<<<<< HEAD
       if (!productFitsAgeFilter(p, filters.ageFromMonths, filters.ageToMonths)) return false;
+=======
+      if (filters.ageBand !== 'all' && !p.ageBands.includes(filters.ageBand as AgeBand)) return false;
+      if (filters.theme !== 'all' && p.theme !== filters.theme) return false;
+>>>>>>> ad921e3 (Added a Theme Feature.)
       if (range) {
         if (range.min != null && p.price < range.min) return false;
         if (range.max != null && p.price > range.max) return false;
@@ -119,7 +136,7 @@ export function Shop() {
     <div className="container">
       <div className="page-hero">
         <h1>{titleParts.length ? titleParts.join(' · ') : 'Shop All'}</h1>
-        <p>Filter by gender, age (1 month–15 years), wear type, and price. Prices in ₹.</p>
+        <p>Filter by gender, age (1 month–15 years), wear type, price, and theme. Prices in ₹.</p>
       </div>
 
       <div className="shop-layout">
