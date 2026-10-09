@@ -67,6 +67,9 @@ export function Footer() {
                 <a href="mailto:hello@littlepetals.shop">hello@littlepetals.shop</a>
               </li>
               <li>
+                <a href="/#feedback">Share feedback</a>
+              </li>
+              <li>
                 <Link to="/shop">Size guide</Link>
               </li>
               <li>

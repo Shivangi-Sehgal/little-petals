@@ -3,6 +3,7 @@ import type { Theme } from '../types';
 import { DeliveryFloat } from '../components/DeliveryFloat';
 import { FallingPetals } from '../components/Floral';
 import { ProductCard } from '../components/ProductCard';
+import { FeedbackForm } from '../components/FeedbackForm';
 import { ReviewsMarquee } from '../components/ReviewsMarquee';
 import { products, THEMES } from '../data/products';
 
@@ -188,6 +189,8 @@ export function Home() {
       </div>
 
       <ReviewsMarquee />
+
+      <FeedbackForm />
 
       <section className="section section--contact" id="contact">
         <div className="container">
