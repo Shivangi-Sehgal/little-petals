@@ -9,7 +9,7 @@ import { Shop } from './pages/Shop';
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/little-petals">
       <CartProvider>
         <div className="app-shell">
           <div className="floral-bg" aria-hidden="true" />
