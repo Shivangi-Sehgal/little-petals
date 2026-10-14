@@ -1,4 +1,5 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { FloatingPetals } from './components/Floral';
 import { Footer } from './components/Footer';
 import { Header } from './components/Header';
 import { CartProvider } from './context/CartContext';
@@ -13,6 +14,7 @@ export default function App() {
       <CartProvider>
         <div className="app-shell">
           <div className="floral-bg" aria-hidden="true" />
+          <FloatingPetals />
           <Header />
           <main className="main">
             <Routes>

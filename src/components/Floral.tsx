@@ -47,3 +47,50 @@ export function FallingPetals() {
     </div>
   );
 }
+
+const TONES = ['blush', 'sage', 'petal'] as const;
+
+/** Deterministic scatter; negative delays start mid-flight so nothing freezes at load. */
+function buildFloatingPetals(count = 40) {
+  const petals = [];
+  for (let i = 0; i < count; i++) {
+    const left = ((i * 37) % 100);
+    const size = 9 + ((i * 7) % 14);
+    const drift = (i % 2 === 0 ? 1 : -1) * (24 + (i % 36));
+    const duration = 16 + (i % 14);
+    // Negative delay = already partway through the loop on first paint
+    const delay = -((i * duration) / count);
+    petals.push({
+      left: `${left}%`,
+      size,
+      tone: TONES[i % 3],
+      delay: `${delay.toFixed(2)}s`,
+      duration: `${duration}s`,
+      drift: `${drift}px`,
+    });
+  }
+  return petals;
+}
+
+const FLOATING_PETALS = buildFloatingPetals(40);
+
+export function FloatingPetals() {
+  return (
+    <div className="floating-petals" aria-hidden="true">
+      {FLOATING_PETALS.map((p, i) => (
+        <span
+          key={i}
+          className={`floating-petal floating-petal--${p.tone}`}
+          style={{
+            left: p.left,
+            width: p.size,
+            height: p.size * 1.35,
+            animationDelay: p.delay,
+            animationDuration: p.duration,
+            ['--drift' as string]: p.drift,
+          }}
+        />
+      ))}
+    </div>
+  );
+}

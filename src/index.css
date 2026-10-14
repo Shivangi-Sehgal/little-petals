@@ -115,9 +115,59 @@ p {
   background-size: 160px 160px;
 }
 
-.app-shell > *:not(.floral-bg) {
+.app-shell > *:not(.floral-bg):not(.floating-petals) {
   position: relative;
   z-index: 1;
+}
+
+/* ——— Floating background petals ——— */
+.floating-petals {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.floating-petal {
+  position: absolute;
+  top: -8%;
+  border-radius: 60% 40% 55% 45%;
+  opacity: 0;
+  animation: floatPetal linear infinite;
+}
+
+.floating-petal--blush {
+  background: radial-gradient(ellipse at 35% 35%, var(--blush-soft), var(--blush));
+}
+
+.floating-petal--sage {
+  background: radial-gradient(ellipse at 35% 35%, var(--sage-soft), var(--sage));
+}
+
+.floating-petal--petal {
+  background: radial-gradient(ellipse at 35% 35%, #fff8f6, var(--petal));
+}
+
+@keyframes floatPetal {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+    opacity: 0;
+  }
+  8% {
+    opacity: 0.55;
+  }
+  50% {
+    transform: translate3d(var(--drift, 24px), 55vh, 0) rotate(180deg);
+    opacity: 0.5;
+  }
+  92% {
+    opacity: 0.4;
+  }
+  100% {
+    transform: translate3d(calc(var(--drift, 24px) * -0.6), 110vh, 0) rotate(360deg);
+    opacity: 0;
+  }
 }
 
 /* ——— Header ——— */
@@ -1892,7 +1942,9 @@ a.contact-tile:hover {
   .delivery-float,
   .detail__delivery-pill,
   .delivery-float__petal,
-  .feedback-wall__card {
+  .feedback-wall__card,
+  .floating-petal,
+  .petal {
     animation: none !important;
   }
 }
